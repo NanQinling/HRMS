@@ -136,13 +136,25 @@ namespace HRMS
             //this.txtBeiZhu.MaxLength = 30;//设置备注txtBox最大字符为30
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            #region 点击表格中的一行时，把内容送到编辑区
+            int id = int.Parse(this.dataGridView1.CurrentRow.Cells["id"].Value.ToString());
+            Admin objAdmin = objAdminService.GetAllAdminByID(id);
+            this.txtBuMen.Text = objAdmin.dept.ToString();
+            this.txtHnbh.Text = objAdmin.userid.ToString();
+            this.txtName.Text = objAdmin.username.ToString();
+            this.ckbAttendance.Checked = Convert.ToBoolean(objAdmin.Attendance.ToString());
+            this.ckbOvertime.Checked = Convert.ToBoolean(objAdmin.Overtime.ToString());
+            this.ckbEvaluation.Checked = Convert.ToBoolean(objAdmin.Evaluation.ToString());
+            this.ckbAssessment.Checked = Convert.ToBoolean(objAdmin.Assessment.ToString());
 
-
-
-
-
-
-
+            #endregion
+        }
     }
 }

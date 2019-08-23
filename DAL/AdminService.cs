@@ -99,6 +99,7 @@ namespace DAL
 
 
 
+
         /// <summary>
         /// 查询所有管理员
         /// </summary>
@@ -132,6 +133,37 @@ namespace DAL
         }
 
 
+        /// <summary>
+        /// 查询所有管理员
+        /// </summary>
+        /// <param name="dept"></param>
+        /// <returns></returns>
+        public Admin GetAllAdminByID(int id)
+        {
+            string sql = "select tbl_user.id,tbl_user.deptid,org_dept.机构简称 as dept,tbl_user.UserId,emp_bas.姓名 as username,tbl_user.attendance,tbl_user.overtime,tbl_user.evaluation,tbl_user.assessment from tbl_user";
+            sql += " inner join org_dept on org_dept.机构编号 = tbl_user.deptid";
+            sql += " inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId";
+            sql += " order by tbl_user.DeptID";
+            SqlDataReader objReader = SQLHelper.GetReader(sql);
+            Admin objAdmin = null;
+            if (objReader.Read())
+            {
+                objAdmin = new Admin()
+                {
+                    id = Convert.ToInt32(objReader["id"].ToString()),
+                    deptid = Convert.ToInt32(objReader["deptid"].ToString()),
+                    dept = objReader["dept"].ToString(),
+                    userid = objReader["userid"].ToString(),
+                    username = objReader["username"].ToString(),
+                    Attendance = Convert.ToBoolean(objReader["attendance"].ToString()),
+                    Overtime = Convert.ToBoolean(objReader["overtime"].ToString()),
+                    Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString()),
+                    Assessment = Convert.ToBoolean(objReader["assessment"].ToString())
+                };
+            }
+            objReader.Close();
+            return objAdmin;
+        }
 
 
         /// <summary>
