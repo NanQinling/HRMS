@@ -28,32 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAuthority));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtBuMen = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtHnbh = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.gbDept = new System.Windows.Forms.GroupBox();
+            this.cmbJiGouLevel = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtSort = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtParentID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.ckbAttendance = new System.Windows.Forms.CheckBox();
-            this.ckbOvertime = new System.Windows.Forms.CheckBox();
-            this.ckbEvaluation = new System.Windows.Forms.CheckBox();
-            this.ckbAssessment = new System.Windows.Forms.CheckBox();
+            this.txtEndDate = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtStartDate = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtJiGouID = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtBeiZhu = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtJiGouShortName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtJiGouFullName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tvDeptList = new System.Windows.Forms.TreeView();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbADDParent = new System.Windows.Forms.ToolStripButton();
+            this.tsbADDChild = new System.Windows.Forms.ToolStripButton();
+            this.tsbSave = new System.Windows.Forms.ToolStripButton();
+            this.tsbDelete = new System.Windows.Forms.ToolStripButton();
+            this.tsbClose = new System.Windows.Forms.ToolStripButton();
+            this.tsbMoveUp = new System.Windows.Forms.ToolStripButton();
+            this.tsbMoveDown = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.gbDept.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -62,235 +69,282 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Controls.Add(this.btnClose);
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(0, -30);
+            this.panel1.Controls.Add(this.gbDept);
+            this.panel1.Controls.Add(this.tvDeptList);
+            this.panel1.Location = new System.Drawing.Point(0, 40);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 510);
+            this.panel1.Size = new System.Drawing.Size(800, 400);
             this.panel1.TabIndex = 24;
             // 
-            // dataGridView1
+            // gbDept
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column7});
-            this.dataGridView1.Location = new System.Drawing.Point(17, 348);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(763, 113);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.gbDept.Controls.Add(this.cmbJiGouLevel);
+            this.gbDept.Controls.Add(this.label7);
+            this.gbDept.Controls.Add(this.txtSort);
+            this.gbDept.Controls.Add(this.label6);
+            this.gbDept.Controls.Add(this.txtParentID);
+            this.gbDept.Controls.Add(this.label1);
+            this.gbDept.Controls.Add(this.txtEndDate);
+            this.gbDept.Controls.Add(this.label20);
+            this.gbDept.Controls.Add(this.txtStartDate);
+            this.gbDept.Controls.Add(this.label11);
+            this.gbDept.Controls.Add(this.txtJiGouID);
+            this.gbDept.Controls.Add(this.label4);
+            this.gbDept.Controls.Add(this.txtBeiZhu);
+            this.gbDept.Controls.Add(this.label5);
+            this.gbDept.Controls.Add(this.txtJiGouShortName);
+            this.gbDept.Controls.Add(this.label3);
+            this.gbDept.Controls.Add(this.txtJiGouFullName);
+            this.gbDept.Controls.Add(this.label2);
+            this.gbDept.Location = new System.Drawing.Point(243, 3);
+            this.gbDept.Name = "gbDept";
+            this.gbDept.Size = new System.Drawing.Size(550, 246);
+            this.gbDept.TabIndex = 1;
+            this.gbDept.TabStop = false;
             // 
-            // Column1
+            // cmbJiGouLevel
             // 
-            this.Column1.DataPropertyName = "dept";
-            this.Column1.HeaderText = "部门";
-            this.Column1.Name = "Column1";
+            this.cmbJiGouLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbJiGouLevel.FormattingEnabled = true;
+            this.cmbJiGouLevel.Location = new System.Drawing.Point(342, 97);
+            this.cmbJiGouLevel.Name = "cmbJiGouLevel";
+            this.cmbJiGouLevel.Size = new System.Drawing.Size(101, 20);
+            this.cmbJiGouLevel.TabIndex = 62;
             // 
-            // Column2
+            // label7
             // 
-            this.Column2.DataPropertyName = "userid";
-            this.Column2.HeaderText = "人员编号";
-            this.Column2.Name = "Column2";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(260, 100);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 61;
+            this.label7.Text = "机构层级：";
             // 
-            // Column3
+            // txtSort
             // 
-            this.Column3.DataPropertyName = "username";
-            this.Column3.HeaderText = "姓名";
-            this.Column3.Name = "Column3";
+            this.txtSort.Location = new System.Drawing.Point(342, 133);
+            this.txtSort.Name = "txtSort";
+            this.txtSort.Size = new System.Drawing.Size(101, 21);
+            this.txtSort.TabIndex = 56;
             // 
-            // Column4
+            // label6
             // 
-            this.Column4.DataPropertyName = "Attendance";
-            this.Column4.HeaderText = "考勤管理";
-            this.Column4.Name = "Column4";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(260, 137);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 57;
+            this.label6.Text = "排    序：";
             // 
-            // Column5
+            // txtParentID
             // 
-            this.Column5.DataPropertyName = "Overtime";
-            this.Column5.HeaderText = "加班管理";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.DataPropertyName = "Evaluation";
-            this.Column6.HeaderText = "员工考评管理";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.DataPropertyName = "assessment";
-            this.Column7.HeaderText = "月度绩效管理";
-            this.Column7.Name = "Column7";
-            // 
-            // btnClose
-            // 
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(705, 63);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 19;
-            this.btnClose.Text = "关闭窗口";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.ckbAssessment);
-            this.groupBox2.Controls.Add(this.ckbEvaluation);
-            this.groupBox2.Controls.Add(this.ckbOvertime);
-            this.groupBox2.Controls.Add(this.ckbAttendance);
-            this.groupBox2.Controls.Add(this.txtBuMen);
-            this.groupBox2.Controls.Add(this.label29);
-            this.groupBox2.Controls.Add(this.txtName);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.txtHnbh);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(17, 95);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(765, 133);
-            this.groupBox2.TabIndex = 21;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "[考勤数据]";
-            // 
-            // txtBuMen
-            // 
-            this.txtBuMen.BackColor = System.Drawing.SystemColors.Info;
-            this.txtBuMen.Location = new System.Drawing.Point(96, 20);
-            this.txtBuMen.Name = "txtBuMen";
-            this.txtBuMen.ReadOnly = true;
-            this.txtBuMen.Size = new System.Drawing.Size(72, 21);
-            this.txtBuMen.TabIndex = 60;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(11, 24);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(41, 12);
-            this.label29.TabIndex = 61;
-            this.label29.Text = "部门：";
-            // 
-            // txtName
-            // 
-            this.txtName.BackColor = System.Drawing.SystemColors.Info;
-            this.txtName.Location = new System.Drawing.Point(688, 20);
-            this.txtName.Name = "txtName";
-            this.txtName.ReadOnly = true;
-            this.txtName.Size = new System.Drawing.Size(72, 21);
-            this.txtName.TabIndex = 8;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(578, 24);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 12);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "姓名：";
-            // 
-            // txtHnbh
-            // 
-            this.txtHnbh.BackColor = System.Drawing.SystemColors.Info;
-            this.txtHnbh.Location = new System.Drawing.Point(469, 20);
-            this.txtHnbh.Name = "txtHnbh";
-            this.txtHnbh.ReadOnly = true;
-            this.txtHnbh.Size = new System.Drawing.Size(72, 21);
-            this.txtHnbh.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(372, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "人员编号：";
+            this.txtParentID.Location = new System.Drawing.Point(118, 96);
+            this.txtParentID.Name = "txtParentID";
+            this.txtParentID.Size = new System.Drawing.Size(101, 21);
+            this.txtParentID.TabIndex = 54;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(17, 50);
+            this.label1.Location = new System.Drawing.Point(21, 100);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 36);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "权限管理";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 55;
+            this.label1.Text = "上级机构：";
             // 
-            // btnSave
+            // txtEndDate
             // 
-            this.btnSave.Location = new System.Drawing.Point(598, 63);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 18;
-            this.btnSave.Text = "保存";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.txtEndDate.Location = new System.Drawing.Point(342, 20);
+            this.txtEndDate.Name = "txtEndDate";
+            this.txtEndDate.Size = new System.Drawing.Size(101, 21);
+            this.txtEndDate.TabIndex = 52;
             // 
-            // ckbAttendance
+            // label20
             // 
-            this.ckbAttendance.AutoSize = true;
-            this.ckbAttendance.Location = new System.Drawing.Point(13, 57);
-            this.ckbAttendance.Name = "ckbAttendance";
-            this.ckbAttendance.Size = new System.Drawing.Size(72, 16);
-            this.ckbAttendance.TabIndex = 62;
-            this.ckbAttendance.Text = "考勤管理";
-            this.ckbAttendance.UseVisualStyleBackColor = true;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(260, 24);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(65, 12);
+            this.label20.TabIndex = 53;
+            this.label20.Text = "结束日期：";
             // 
-            // ckbOvertime
+            // txtStartDate
             // 
-            this.ckbOvertime.AutoSize = true;
-            this.ckbOvertime.Location = new System.Drawing.Point(129, 57);
-            this.ckbOvertime.Name = "ckbOvertime";
-            this.ckbOvertime.Size = new System.Drawing.Size(72, 16);
-            this.ckbOvertime.TabIndex = 63;
-            this.ckbOvertime.Text = "加班管理";
-            this.ckbOvertime.UseVisualStyleBackColor = true;
+            this.txtStartDate.Location = new System.Drawing.Point(118, 20);
+            this.txtStartDate.Name = "txtStartDate";
+            this.txtStartDate.Size = new System.Drawing.Size(101, 21);
+            this.txtStartDate.TabIndex = 50;
             // 
-            // ckbEvaluation
+            // label11
             // 
-            this.ckbEvaluation.AutoSize = true;
-            this.ckbEvaluation.Location = new System.Drawing.Point(267, 57);
-            this.ckbEvaluation.Name = "ckbEvaluation";
-            this.ckbEvaluation.Size = new System.Drawing.Size(96, 16);
-            this.ckbEvaluation.TabIndex = 64;
-            this.ckbEvaluation.Text = "员工考评管理";
-            this.ckbEvaluation.UseVisualStyleBackColor = true;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(21, 24);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 12);
+            this.label11.TabIndex = 51;
+            this.label11.Text = "开始日期：";
             // 
-            // ckbAssessment
+            // txtJiGouID
             // 
-            this.ckbAssessment.AutoSize = true;
-            this.ckbAssessment.Location = new System.Drawing.Point(401, 57);
-            this.ckbAssessment.Name = "ckbAssessment";
-            this.ckbAssessment.Size = new System.Drawing.Size(96, 16);
-            this.ckbAssessment.TabIndex = 65;
-            this.ckbAssessment.Text = "月度绩效管理";
-            this.ckbAssessment.UseVisualStyleBackColor = true;
+            this.txtJiGouID.Location = new System.Drawing.Point(118, 133);
+            this.txtJiGouID.Name = "txtJiGouID";
+            this.txtJiGouID.Size = new System.Drawing.Size(101, 21);
+            this.txtJiGouID.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 137);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "机构编码：";
+            // 
+            // txtBeiZhu
+            // 
+            this.txtBeiZhu.Location = new System.Drawing.Point(118, 172);
+            this.txtBeiZhu.Multiline = true;
+            this.txtBeiZhu.Name = "txtBeiZhu";
+            this.txtBeiZhu.Size = new System.Drawing.Size(325, 21);
+            this.txtBeiZhu.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(21, 176);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "备    注：";
+            // 
+            // txtJiGouShortName
+            // 
+            this.txtJiGouShortName.Location = new System.Drawing.Point(118, 54);
+            this.txtJiGouShortName.Name = "txtJiGouShortName";
+            this.txtJiGouShortName.Size = new System.Drawing.Size(101, 21);
+            this.txtJiGouShortName.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "对象缩写：";
+            // 
+            // txtJiGouFullName
+            // 
+            this.txtJiGouFullName.Location = new System.Drawing.Point(342, 54);
+            this.txtJiGouFullName.Name = "txtJiGouFullName";
+            this.txtJiGouFullName.Size = new System.Drawing.Size(101, 21);
+            this.txtJiGouFullName.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(260, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "对象名称：";
+            // 
+            // tvDeptList
+            // 
+            this.tvDeptList.Location = new System.Drawing.Point(3, 3);
+            this.tvDeptList.Name = "tvDeptList";
+            this.tvDeptList.Size = new System.Drawing.Size(234, 307);
+            this.tvDeptList.TabIndex = 2;
+            this.tvDeptList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDeptList_AfterSelect);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbADDParent,
+            this.tsbADDChild,
+            this.tsbSave,
+            this.tsbDelete,
+            this.tsbClose,
+            this.tsbMoveUp,
+            this.tsbMoveDown});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(800, 38);
+            this.toolStrip1.TabIndex = 30;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbADDParent
+            // 
+            this.tsbADDParent.Image = ((System.Drawing.Image)(resources.GetObject("tsbADDParent.Image")));
+            this.tsbADDParent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbADDParent.Name = "tsbADDParent";
+            this.tsbADDParent.Size = new System.Drawing.Size(76, 35);
+            this.tsbADDParent.Text = "添加同级";
+            // 
+            // tsbADDChild
+            // 
+            this.tsbADDChild.Image = ((System.Drawing.Image)(resources.GetObject("tsbADDChild.Image")));
+            this.tsbADDChild.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbADDChild.Name = "tsbADDChild";
+            this.tsbADDChild.Size = new System.Drawing.Size(76, 35);
+            this.tsbADDChild.Text = "添加下级";
+            // 
+            // tsbSave
+            // 
+            this.tsbSave.Image = ((System.Drawing.Image)(resources.GetObject("tsbSave.Image")));
+            this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSave.Name = "tsbSave";
+            this.tsbSave.Size = new System.Drawing.Size(52, 35);
+            this.tsbSave.Text = "保存";
+            // 
+            // tsbDelete
+            // 
+            this.tsbDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsbDelete.Image")));
+            this.tsbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbDelete.Name = "tsbDelete";
+            this.tsbDelete.Size = new System.Drawing.Size(52, 35);
+            this.tsbDelete.Text = "删除";
+            // 
+            // tsbClose
+            // 
+            this.tsbClose.Image = ((System.Drawing.Image)(resources.GetObject("tsbClose.Image")));
+            this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbClose.Name = "tsbClose";
+            this.tsbClose.Size = new System.Drawing.Size(76, 35);
+            this.tsbClose.Text = "关闭窗口";
+            this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
+            // 
+            // tsbMoveUp
+            // 
+            this.tsbMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("tsbMoveUp.Image")));
+            this.tsbMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMoveUp.Name = "tsbMoveUp";
+            this.tsbMoveUp.Size = new System.Drawing.Size(52, 35);
+            this.tsbMoveUp.Text = "上移";
+            // 
+            // tsbMoveDown
+            // 
+            this.tsbMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("tsbMoveDown.Image")));
+            this.tsbMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbMoveDown.Name = "tsbMoveDown";
+            this.tsbMoveDown.Size = new System.Drawing.Size(52, 35);
+            this.tsbMoveDown.Text = "下移";
             // 
             // FrmAuthority
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Name = "FrmAuthority";
             this.Text = "权限管理";
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gbDept.ResumeLayout(false);
+            this.gbDept.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -298,27 +352,33 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txtBuMen;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtHnbh;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton tsbADDParent;
+        private System.Windows.Forms.ToolStripButton tsbADDChild;
+        private System.Windows.Forms.ToolStripButton tsbSave;
+        private System.Windows.Forms.ToolStripButton tsbDelete;
+        private System.Windows.Forms.ToolStripButton tsbClose;
+        private System.Windows.Forms.ToolStripButton tsbMoveUp;
+        private System.Windows.Forms.ToolStripButton tsbMoveDown;
+        private System.Windows.Forms.GroupBox gbDept;
+        private System.Windows.Forms.ComboBox cmbJiGouLevel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtSort;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtParentID;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.CheckBox ckbAssessment;
-        private System.Windows.Forms.CheckBox ckbEvaluation;
-        private System.Windows.Forms.CheckBox ckbOvertime;
-        private System.Windows.Forms.CheckBox ckbAttendance;
+        private System.Windows.Forms.TextBox txtEndDate;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox txtStartDate;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtJiGouID;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtBeiZhu;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtJiGouShortName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtJiGouFullName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TreeView tvDeptList;
     }
 }

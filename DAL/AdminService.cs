@@ -39,10 +39,10 @@ namespace DAL
                     objAdmin.dept = objReader["dept"].ToString();
                     objAdmin.userid = objReader["userid"].ToString();
                     objAdmin.username = objReader["username"].ToString();
-                    objAdmin.Attendance = bool.Parse(objReader["attendance"].ToString());
-                    objAdmin.Overtime = bool.Parse(objReader["overtime"].ToString());
-                    objAdmin.Evaluation = bool.Parse(objReader["evaluation"].ToString());
-                    objAdmin.Assessment = bool.Parse(objReader["assessment"].ToString());
+                    objAdmin.Attendance = Convert.ToBoolean(objReader["attendance"].ToString());
+                    objAdmin.Overtime = Convert.ToBoolean(objReader["overtime"].ToString());
+                    objAdmin.Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString());
+                    objAdmin.Assessment = Convert.ToBoolean(objReader["assessment"].ToString());
                 }
                 else
                 {
@@ -105,27 +105,38 @@ namespace DAL
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
-        public List<Admin> GetAllAdmin()
+        public List<Admin> GetAllAdmin(DateTime dateTime)
         {
-            string sql = "select tbl_user.id,tbl_user.deptid,org_dept.机构简称 as dept,tbl_user.UserId,emp_bas.姓名 as username,tbl_user.attendance,tbl_user.overtime,tbl_user.evaluation,tbl_user.assessment from tbl_user";
-            sql += " inner join org_dept on org_dept.机构编号 = tbl_user.deptid";
-            sql += " inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId";
-            sql += " order by tbl_user.DeptID";
+
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append("select cast(tbl_user.deptid as int) as ParentID,tbl_user.deptid,org_dept.机构简称 as Dept,cast(tbl_user.UserId as int) as userid,emp_bas.姓名 as Username,tbl_user.Attendance, tbl_user.Overtime, tbl_user.Evaluation, tbl_user.Assessment,0 as 排序 from tbl_user");
+            sqlBuilder.Append(" inner join org_dept on org_dept.机构编号 = tbl_user.deptid");
+            sqlBuilder.Append(" inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId");
+            sqlBuilder.Append(" union all select parentid, 机构编号 as deptid, 机构简称 as dept,机构编号 as userid,机构简称 as username,null as attendance,null as overtime,null as evaluation,null as assessment, 排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
+
+            string sql = string.Format(sqlBuilder.ToString(), dateTime);
             SqlDataReader objReader = SQLHelper.GetReader(sql);
+
             List<Admin> list = new List<Admin>();
             while (objReader.Read())
             {
                 list.Add(new Admin()
                 {
-                    id = Convert.ToInt32(objReader["id"].ToString()),
+                    //id = Convert.ToInt32(objReader["id"].ToString()),
                     deptid = Convert.ToInt32(objReader["deptid"].ToString()),
                     dept = objReader["dept"].ToString(),
                     userid = objReader["userid"].ToString(),
                     username = objReader["username"].ToString(),
-                    Attendance = Convert.ToBoolean(objReader["attendance"].ToString()),
-                    Overtime = Convert.ToBoolean(objReader["overtime"].ToString()),
-                    Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString()),
-                    Assessment = Convert.ToBoolean(objReader["assessment"].ToString())
+                    //Attendance = Convert.ToBoolean(objReader["attendance"].ToString()),
+                    //Overtime = Convert.ToBoolean(objReader["overtime"].ToString()),
+                    //Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString()),
+                    //Assessment = Convert.ToBoolean(objReader["assessment"].ToString())
+                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
+
+                    Attendance = false,
+                    Overtime = false,
+                    Evaluation = false,
+                    Assessment = false
                 });
             }
             objReader.Close();
@@ -138,7 +149,7 @@ namespace DAL
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
-        public Admin GetAllAdminByID(int id)
+        public Admin GetAdminByID(int id)
         {
             string sql = "select tbl_user.id,tbl_user.deptid,org_dept.机构简称 as dept,tbl_user.UserId,emp_bas.姓名 as username,tbl_user.attendance,tbl_user.overtime,tbl_user.evaluation,tbl_user.assessment from tbl_user";
             sql += " inner join org_dept on org_dept.机构编号 = tbl_user.deptid";

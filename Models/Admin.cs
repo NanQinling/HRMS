@@ -13,12 +13,12 @@ namespace Models
         public string userid { get; set; }
         public string username { get; set; }
         public string pwd { get; set; }
-        public bool Attendance { get; set; }
-        public bool Overtime { get; set; }
-        public bool Evaluation { get; set; }
-        public bool Assessment { get; set; }
+        public Boolean Attendance { get; set; }
+        public Boolean Overtime { get; set; }
+        public Boolean Evaluation { get; set; }
+        public Boolean Assessment { get; set; }
         //public DateTime time { get; set; }
-
+        public int ParentID { get; set; }
 
 
 

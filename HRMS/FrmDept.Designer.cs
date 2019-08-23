@@ -79,9 +79,9 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.gbDept);
             this.panel1.Controls.Add(this.tvDeptList);
-            this.panel1.Location = new System.Drawing.Point(12, 43);
+            this.panel1.Location = new System.Drawing.Point(0, 40);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(940, 328);
+            this.panel1.Size = new System.Drawing.Size(800, 400);
             this.panel1.TabIndex = 28;
             // 
             // gbDept
@@ -106,7 +106,7 @@
             this.gbDept.Controls.Add(this.label2);
             this.gbDept.Location = new System.Drawing.Point(243, 3);
             this.gbDept.Name = "gbDept";
-            this.gbDept.Size = new System.Drawing.Size(680, 246);
+            this.gbDept.Size = new System.Drawing.Size(550, 246);
             this.gbDept.TabIndex = 0;
             this.gbDept.TabStop = false;
             // 
@@ -270,7 +270,7 @@
             this.tsbMoveDown});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(999, 40);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 38);
             this.toolStrip1.TabIndex = 29;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -279,7 +279,7 @@
             this.tsbADDParent.Image = ((System.Drawing.Image)(resources.GetObject("tsbADDParent.Image")));
             this.tsbADDParent.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbADDParent.Name = "tsbADDParent";
-            this.tsbADDParent.Size = new System.Drawing.Size(76, 37);
+            this.tsbADDParent.Size = new System.Drawing.Size(76, 35);
             this.tsbADDParent.Text = "添加同级";
             this.tsbADDParent.Click += new System.EventHandler(this.tsbADDParent_Click);
             // 
@@ -341,7 +341,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(999, 450);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Name = "FrmDept";

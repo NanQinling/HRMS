@@ -15,51 +15,24 @@ namespace HRMS
     public partial class FrmAuthority : Form
     {
 
-        private AdminService objAdminService = new DAL.AdminService();//创建数据访问类对象
-
-        /// <summary>
-        /// 加班表格初始化
-        /// </summary>
-        private void init_dgvAuthority()
+        public FrmAuthority()
         {
-            List<Admin> list = objAdminService.GetAllAdmin();
-            this.dataGridView1.DataSource = list;
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            //this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.MultiSelect = false;
-            //this.dataGridView1.Columns[3].Frozen = true;
+            InitializeComponent();
 
-            //禁止 DataGridView 点击 列标题 排序
-            for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
-            {
-                dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-
-            //隐藏不必要的列
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                if (dataGridView1.Columns[i].HeaderText == "id")
-                {
-                    dataGridView1.Columns[i].Visible = false;
-                }
-                if (dataGridView1.Columns[i].HeaderText == "deptid")
-                {
-                    dataGridView1.Columns[i].Visible = false;
-                }
-                if (dataGridView1.Columns[i].HeaderText == "pwd")
-                {
-                    dataGridView1.Columns[i].Visible = false;
-                }
-            }
+            //初始化treeview
+            LoadDeptList();
         }
+
+        private AdminService objAdminService = new AdminService();
+        private List<Admin> nodeList = null;
+
 
         /// <summary>
         /// 清空当前文本框
         /// </summary>
-        private void init_gbAuthority()
+        private void init_gbDept()
         {
-            foreach (Control item in this.groupBox2.Controls)
+            foreach (Control item in this.gbDept.Controls)
             {
                 if (item is TextBox)
                 {
@@ -76,85 +49,98 @@ namespace HRMS
             }
         }
 
-        ///// <summary>
-        ///// 封装对象
-        ///// </summary>
-        //private Admin FengZhuangDuiXiang()
-        //{
-        //    Admin objAdmin = new Admin()
-        //    {
-        //        考勤年月 = Program.salaryDate.last_year_month,
-        //        部门 = Program.currentAdmin.dept,
-        //        班组 = this.txtBanZu.Text.Trim(),
-        //        人员编号 = this.txtHnbh.Text.Trim(),
-        //        姓名 = this.txtName.Text.Trim(),
-        //        应出勤 = double.Parse(this.txtYingChuQin.Text),
-        //        实际出勤 = double.Parse(this.txtShiJiChuQin.Text),
-        //        出差 = double.Parse(this.txtChuChai.Text),
-        //        旷工 = double.Parse(this.txtKuangGong.Text),
-        //        年假 = double.Parse(this.txtNianJia.Text),
-        //        事假 = double.Parse(this.txtShiJia.Text),
-        //        病假 = double.Parse(this.txtBingJia.Text),
-        //        正常调休 = double.Parse(this.txtZhengChangTiaoXiu.Text),
-        //        产假 = double.Parse(this.txtChanJia.Text),
-        //        陪产假 = double.Parse(this.txtPeiChanJia.Text),
-        //        婚假 = double.Parse(this.txtHunJian.Text),
-        //        丧假 = double.Parse(this.txtSangJia.Text),
-        //        迟到早退次数 = double.Parse(this.txtChiDaoZaoTuiCiShu.Text),
-        //        缺卡次数 = double.Parse(this.txtQueKaCiShu.Text),
-        //        工作日加班次数 = double.Parse(this.txtGongZuoRiJiaBanCiShu.Text),
-        //        休息日加班 = double.Parse(this.txtXiuXiRiJiaBan.Text),
-        //        节假日加班 = double.Parse(this.txtJieJiaRiJiaBan.Text),
-        //        休息日出差 = double.Parse(this.txtXiuXiRiChuChai.Text),
-        //        夜间值班次数 = double.Parse(this.txtYeJianZhiBanCiShu.Text),
-        //        夜间值班调休次数 = double.Parse(this.txtYeJianZhiBanTiaoXiuCiShu.Text),
-        //        打卡签到次数 = double.Parse(this.txtDaKaQianDaoCiShu.Text),
-        //        工作时长 = double.Parse(this.txtGongZuoShiChang.Text),
-        //        备注 = this.txtBeiZhu.Text.Trim(),
-        //        更改者 = Program.currentAdmin.username,
-        //        更改日期 = DateTime.Now
-        //    };
-        //    return objAdmin;
-        //}
-
-
-
-        public FrmAuthority()
+        private void LoadDeptList()
         {
-            InitializeComponent();
-            init_dgvAuthority();
-            //#region 将txtbox控件同时添加一个KeyPress事件
-            //this.txtYingChuQin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtShiJiChuQin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtChuChai.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtKuangGong.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtNianJia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtShiJia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
-            //this.txtBingJia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBox_KeyPress);
+            this.nodeList = objAdminService.GetAllAdmin(DateTime.Now);//加载所有的菜单节点信息
 
-            //#endregion
-            //this.txtBeiZhu.MaxLength = 30;//设置备注txtBox最大字符为30
+            //创建一个根节点：
+            this.tvDeptList.Nodes.Clear();//清空所有的节点
+            TreeNode rootNode = new TreeNode();
+            rootNode.Text = "华能陕西渭南热电有限公司";
+            rootNode.Tag = "0";//默认值,实际开发中可以根据需要设置
+            //rootNode.ImageIndex = 0;//设置根节点显示的图片
+            this.tvDeptList.Nodes.Add(rootNode);//将根节点添加到treeview根节点
+
+
+            //基于递归方式添加所有子节点
+            CreateChildNode(rootNode, 0);
+            this.tvDeptList.Nodes[0].Expand();//将递归树一级目录展开
+            //this.tvDeptList.ExpandAll();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void CreateChildNode(TreeNode parentNode, int preId)
+        {
+            //找到所有以该节点为父节点的子项
+            var nodes = from list in this.nodeList
+                        where list.ParentID.Equals(preId)
+                        select list;
+
+            //循环创建该节点的所有子节点
+            foreach (var item in nodes)
+            {
+                //创建新的节点并设置属性
+                TreeNode node = new TreeNode();
+                node.Text = item.username;
+                node.Tag = item.userid;
+
+                ////设置节点图标
+                //if (item.ParentId == "0")
+                //{
+                //    node.ImageIndex = 1;
+                //}
+                //else
+                //{
+                //    node.ImageIndex = 3;
+                //}
+
+                parentNode.Nodes.Add(node);//父节点加入该子节点
+                //调用递归实现子节点添加
+                CreateChildNode(node, Convert.ToInt32(item.userid));
+            }
+
+        }
+
+        private void tsbClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void tvDeptList_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            #region 点击表格中的一行时，把内容送到编辑区
-            int id = int.Parse(this.dataGridView1.CurrentRow.Cells["id"].Value.ToString());
-            Admin objAdmin = objAdminService.GetAllAdminByID(id);
-            this.txtBuMen.Text = objAdmin.dept.ToString();
-            this.txtHnbh.Text = objAdmin.userid.ToString();
-            this.txtName.Text = objAdmin.username.ToString();
-            this.ckbAttendance.Checked = Convert.ToBoolean(objAdmin.Attendance.ToString());
-            this.ckbOvertime.Checked = Convert.ToBoolean(objAdmin.Overtime.ToString());
-            this.ckbEvaluation.Checked = Convert.ToBoolean(objAdmin.Evaluation.ToString());
-            this.ckbAssessment.Checked = Convert.ToBoolean(objAdmin.Assessment.ToString());
+            if (e.Node.Level >= 1)
+            {
+                #region 点选表格中的一行时，把内容送到编辑区
 
-            #endregion
+                int id = Convert.ToInt32(e.Node.Tag.ToString());//查询、删除时使用
+
+                Admin objAdmin = objAdminService.GetAdminByID(id); //查询创建对象
+                //this.txtJiGouID.Text = objJiGou.机构编号.ToString();
+                //this.cmbJiGouLevel.Text = objJiGou.机构层级.ToString();
+                //this.txtJiGouFullName.Text = objJiGou.机构名称.ToString();
+                //this.txtJiGouShortName.Text = objJiGou.机构简称.ToString();
+                //this.txtParentID.Text = objJiGou.ParentID.ToString();
+                //this.txtBeiZhu.Text = objJiGou.备注.ToString();
+                //this.txtStartDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objJiGou.开始日期.ToString()));
+                //this.txtEndDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objJiGou.结束日期.ToString()));
+                //this.txtSort.Text = objJiGou.排序.ToString();
+
+                ////给当前机构编号最大值赋值
+                //maxDeptID = objJiGouService.GetMaxDeptID();
+                ////给新设同级机构编号赋值
+                //currentParentID = Convert.ToInt32(objJiGou.ParentID.ToString());
+                //maxParentSortID = Convert.ToInt32(objJiGouService.GetMaxSortID(objJiGou.ParentID));
+                ////给新设下级机构编号赋值
+                //currentDeptID = Convert.ToInt32(objJiGou.机构编号.ToString());
+                //maxChildSortID = Convert.ToInt32(objJiGouService.GetMaxSortID(objJiGou.机构编号));
+                ////点保存时使用
+                //bAdd = false;
+
+                #endregion
+            }
+            else
+            {
+                init_gbDept();
+            }
         }
     }
 }
