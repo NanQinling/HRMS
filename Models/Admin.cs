@@ -17,7 +17,11 @@ namespace Models
         public Boolean Overtime { get; set; }
         public Boolean Evaluation { get; set; }
         public Boolean Assessment { get; set; }
-        //public DateTime time { get; set; }
+        public DateTime 开始日期 { get; set; }
+        public DateTime 结束日期 { get; set; }
+        public string 备注 { get; set; }
+        public string 更改者 { get; set; }
+        public DateTime 更改日期 { get; set; }
         public int ParentID { get; set; }
 
 

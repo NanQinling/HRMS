@@ -109,10 +109,10 @@ namespace DAL
         {
 
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("select cast(tbl_user.deptid as int) as ParentID,tbl_user.deptid,org_dept.机构简称 as Dept,cast(tbl_user.UserId as int) as userid,emp_bas.姓名 as Username,tbl_user.Attendance, tbl_user.Overtime, tbl_user.Evaluation, tbl_user.Assessment,0 as 排序 from tbl_user");
+            sqlBuilder.Append("select tbl_user.id,cast(tbl_user.deptid as int) as ParentID,tbl_user.deptid,org_dept.机构简称 as Dept,cast(tbl_user.UserId as int) as userid,emp_bas.姓名 as Username,tbl_user.Attendance, tbl_user.Overtime, tbl_user.Evaluation, tbl_user.Assessment,0 as 排序 from tbl_user");
             sqlBuilder.Append(" inner join org_dept on org_dept.机构编号 = tbl_user.deptid");
             sqlBuilder.Append(" inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId");
-            sqlBuilder.Append(" union all select parentid, 机构编号 as deptid, 机构简称 as dept,机构编号 as userid,机构简称 as username,null as attendance,null as overtime,null as evaluation,null as assessment, 排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
+            sqlBuilder.Append(" union all select 机构编号 as id,parentid, 机构编号 as deptid, 机构简称 as dept,机构编号 as userid,机构简称 as username,cast(0 as bit) as Attendance,cast(0 as bit) as overtime,cast(0 as bit) as evaluation,cast(0 as bit) as assessment, 排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
 
             string sql = string.Format(sqlBuilder.ToString(), dateTime);
             SqlDataReader objReader = SQLHelper.GetReader(sql);
@@ -122,21 +122,26 @@ namespace DAL
             {
                 list.Add(new Admin()
                 {
-                    //id = Convert.ToInt32(objReader["id"].ToString()),
+                    id = Convert.ToInt32(objReader["id"].ToString()),
                     deptid = Convert.ToInt32(objReader["deptid"].ToString()),
                     dept = objReader["dept"].ToString(),
                     userid = objReader["userid"].ToString(),
                     username = objReader["username"].ToString(),
-                    //Attendance = Convert.ToBoolean(objReader["attendance"].ToString()),
-                    //Overtime = Convert.ToBoolean(objReader["overtime"].ToString()),
-                    //Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString()),
-                    //Assessment = Convert.ToBoolean(objReader["assessment"].ToString())
-                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
+                    Attendance = (bool)objReader["attendance"],
+                    Overtime = (bool)objReader["Overtime"],
+                    Evaluation = (bool)objReader["Evaluation"],
+                    Assessment = (bool)objReader["Assessment"],
+                    开始日期 = (DateTime)objReader["开始日期"],
+                    结束日期 = (DateTime)objReader["结束日期"],
+                    备注 = objReader["备注"].ToString(),
+                    更改者 = objReader["备注"].ToString(),
+                    更改日期 = (DateTime)objReader["更改日期"],
 
-                    Attendance = false,
-                    Overtime = false,
-                    Evaluation = false,
-                    Assessment = false
+                    //Attendance = Convert.ToInt32(objReader["Attendance"].ToString()) == 1 ? true : false,
+                    //Overtime = Convert.ToInt32(objReader["Overtime"].ToString()) == 1 ? true : false,
+                    //Evaluation = Convert.ToInt32(objReader["Evaluation"].ToString()) == 1 ? true : false,
+                    //Assessment = Convert.ToInt32(objReader["Assessment"].ToString()) == 1 ? true : false,
+                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
                 });
             }
             objReader.Close();
