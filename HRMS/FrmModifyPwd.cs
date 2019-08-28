@@ -60,7 +60,7 @@ namespace HRMS
             }
 
             //将新密码提交到数据库
-            int result = objAdminService.ModifyPwd(Program.currentAdmin.userid, this.txtNewPwd.Text.Trim());
+            int result = objAdminService.ModifyPwd(this.txtNewPwd.Text.Trim(), Program.currentAdmin.userid);
             if (result >= 1)
             {
                 MessageBox.Show("新密码修改成功，请妥善保存！", "提示");

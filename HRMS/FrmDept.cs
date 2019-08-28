@@ -30,12 +30,12 @@ namespace HRMS
 
         }
 
-        public int id = 0;      //删除时使用
-        public int maxDeptID = 0;       //创建新机构时使用
-        public int currentParentID = 0;     //创建同级机构时使用
-        public int maxParentSortID = 0;     //创建同级机构时使用
-        public int currentDeptID = 0;       //创建下级机构时使用
-        public int maxChildSortID = 0;      //创建下级机构时使用
+        int id = 0;      //删除时使用
+        int maxDeptID = 0;       //创建新机构时使用
+        int currentParentID = 0;     //创建同级机构时使用
+        int maxParentSortID = 0;     //创建同级机构时使用
+        int currentDeptID = 0;       //创建下级机构时使用
+        int maxChildSortID = 0;      //创建下级机构时使用
         bool bAdd = false;      //点保存时使用
 
 

@@ -21,14 +21,12 @@ namespace DAL
         /// </summary>
         /// <param name="objAdmin"></param>
         /// <returns></returns>
-        public Admin AdminLogin(Admin objAdmin)
+        public Admin AdminLogin(Admin objAdmin, DateTime dateTime)
         {
-            string sql = "select tbl_user.id,tbl_user.deptid,org_dept.机构简称 as dept,tbl_user.UserId,emp_bas.姓名 as username,tbl_user.attendance,tbl_user.overtime,tbl_user.evaluation,tbl_user.assessment from tbl_user";
-            sql += " inner join org_dept on org_dept.机构编号 = tbl_user.deptid";
-            sql += " inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId";
-            sql += " where tbl_user.userid={0} and tbl_user.pwd='{1}'";
-            sql += " order by tbl_user.DeptID";
-            sql = string.Format(sql, objAdmin.userid, objAdmin.pwd);
+            string sql = "select id,deptid,dept,userid,username,attendance,overtime,evaluation,assessment,开始日期,结束日期,备注,更改者,更改日期 from tbl_user";
+            sql += " where userid='{0}' and pwd='{1}' and '{2}' between 开始日期 and 结束日期";
+            sql += " order by DeptID";
+            sql = string.Format(sql, objAdmin.userid, objAdmin.pwd, dateTime);
             try
             {
                 SqlDataReader objReader = SQLHelper.GetReader(sql);
@@ -39,10 +37,15 @@ namespace DAL
                     objAdmin.dept = objReader["dept"].ToString();
                     objAdmin.userid = objReader["userid"].ToString();
                     objAdmin.username = objReader["username"].ToString();
-                    objAdmin.Attendance = Convert.ToBoolean(objReader["attendance"].ToString());
-                    objAdmin.Overtime = Convert.ToBoolean(objReader["overtime"].ToString());
-                    objAdmin.Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString());
-                    objAdmin.Assessment = Convert.ToBoolean(objReader["assessment"].ToString());
+                    objAdmin.Attendance = (bool)objReader["attendance"];
+                    objAdmin.Overtime = (bool)objReader["Overtime"];
+                    objAdmin.Evaluation = (bool)objReader["Evaluation"];
+                    objAdmin.Assessment = (bool)objReader["Assessment"];
+                    objAdmin.开始日期 = (DateTime)objReader["开始日期"];
+                    objAdmin.结束日期 = (DateTime)objReader["结束日期"];
+                    objAdmin.备注 = objReader["备注"].ToString();
+                    objAdmin.更改者 = objReader["更改者"].ToString();
+                    objAdmin.更改日期 = (DateTime)objReader["更改日期"];
                 }
                 else
                 {
@@ -109,11 +112,11 @@ namespace DAL
         {
 
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("select tbl_user.id,cast(tbl_user.deptid as int) as ParentID,tbl_user.deptid,org_dept.机构简称 as Dept,cast(tbl_user.UserId as int) as userid,emp_bas.姓名 as Username,tbl_user.Attendance, tbl_user.Overtime, tbl_user.Evaluation, tbl_user.Assessment,0 as 排序 from tbl_user");
-            sqlBuilder.Append(" inner join org_dept on org_dept.机构编号 = tbl_user.deptid");
-            sqlBuilder.Append(" inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId");
-            sqlBuilder.Append(" union all select 机构编号 as id,parentid, 机构编号 as deptid, 机构简称 as dept,机构编号 as userid,机构简称 as username,cast(0 as bit) as Attendance,cast(0 as bit) as overtime,cast(0 as bit) as evaluation,cast(0 as bit) as assessment, 排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
+            //sqlBuilder.Append("select id,DeptId as ParentID,DeptId,Dept,cast(UserId as int) as UserId,UserName,Attendance, Overtime, Evaluation, Assessment,开始日期,结束日期,备注,0 as 排序 from tbl_user where '{0}' between 开始日期 and 结束日期");
+            //sqlBuilder.Append(" union all select 机构编号 as id,ParentID, 机构编号 as DeptId, 机构简称 as Dept,机构编号 as UserId,机构简称 as UserName,cast(0 as bit) as Attendance,cast(0 as bit) as overtime,cast(0 as bit) as evaluation,cast(0 as bit) as assessment,开始日期,结束日期,备注,排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
 
+            sqlBuilder.Append("select id,DeptId as ParentID,DeptId,Dept,UserId,UserName,Attendance, Overtime, Evaluation, Assessment,开始日期,结束日期,备注,0 as 排序 from tbl_user where '{0}' between 开始日期 and 结束日期");
+            sqlBuilder.Append(" union all select 机构编号 as id,ParentID, 机构编号 as DeptId, 机构简称 as Dept,机构编号 as UserId,机构简称 as UserName,cast(0 as bit) as Attendance,cast(0 as bit) as overtime,cast(0 as bit) as evaluation,cast(0 as bit) as assessment,开始日期,结束日期,备注,排序 from org_dept where ParentID = 0 and '{0}' between 开始日期 and 结束日期 order by ParentID, 排序");
             string sql = string.Format(sqlBuilder.ToString(), dateTime);
             SqlDataReader objReader = SQLHelper.GetReader(sql);
 
@@ -134,14 +137,9 @@ namespace DAL
                     开始日期 = (DateTime)objReader["开始日期"],
                     结束日期 = (DateTime)objReader["结束日期"],
                     备注 = objReader["备注"].ToString(),
-                    更改者 = objReader["备注"].ToString(),
-                    更改日期 = (DateTime)objReader["更改日期"],
-
-                    //Attendance = Convert.ToInt32(objReader["Attendance"].ToString()) == 1 ? true : false,
-                    //Overtime = Convert.ToInt32(objReader["Overtime"].ToString()) == 1 ? true : false,
-                    //Evaluation = Convert.ToInt32(objReader["Evaluation"].ToString()) == 1 ? true : false,
-                    //Assessment = Convert.ToInt32(objReader["Assessment"].ToString()) == 1 ? true : false,
-                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
+                    //更改者 = objReader["更改者"].ToString(),
+                    //更改日期 = (DateTime)objReader["更改日期"],
+                    ParentID = (int)objReader["ParentID"]
                 });
             }
             objReader.Close();
@@ -154,12 +152,11 @@ namespace DAL
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
-        public Admin GetAdminByID(int id)
+        public Admin GetAdminByID(DateTime dateTime, int id)
         {
-            string sql = "select tbl_user.id,tbl_user.deptid,org_dept.机构简称 as dept,tbl_user.UserId,emp_bas.姓名 as username,tbl_user.attendance,tbl_user.overtime,tbl_user.evaluation,tbl_user.assessment from tbl_user";
-            sql += " inner join org_dept on org_dept.机构编号 = tbl_user.deptid";
-            sql += " inner join emp_bas on emp_bas.人员编号 = tbl_user.UserId";
-            sql += " order by tbl_user.DeptID";
+            string sql = "select id,deptid,dept,userid,username,attendance,overtime,evaluation,assessment,开始日期,结束日期,备注,更改者,更改日期 from tbl_user";
+            sql += " where id='{0}' and '{1}' between 开始日期 and 结束日期";
+            sql = string.Format(sql, id, dateTime);
             SqlDataReader objReader = SQLHelper.GetReader(sql);
             Admin objAdmin = null;
             if (objReader.Read())
@@ -171,10 +168,13 @@ namespace DAL
                     dept = objReader["dept"].ToString(),
                     userid = objReader["userid"].ToString(),
                     username = objReader["username"].ToString(),
-                    Attendance = Convert.ToBoolean(objReader["attendance"].ToString()),
-                    Overtime = Convert.ToBoolean(objReader["overtime"].ToString()),
-                    Evaluation = Convert.ToBoolean(objReader["evaluation"].ToString()),
-                    Assessment = Convert.ToBoolean(objReader["assessment"].ToString())
+                    Attendance = (bool)objReader["attendance"],
+                    Overtime = (bool)objReader["Overtime"],
+                    Evaluation = (bool)objReader["Evaluation"],
+                    Assessment = (bool)objReader["Assessment"],
+                    开始日期 = (DateTime)objReader["开始日期"],
+                    结束日期 = (DateTime)objReader["结束日期"],
+                    备注 = objReader["备注"].ToString(),
                 };
             }
             objReader.Close();
@@ -187,14 +187,14 @@ namespace DAL
         /// </summary>
         /// <param name="objAdmin"></param>
         /// <returns></returns>
-        public int InsertAdmin(Admin objAdmin)
+        public int AddAdmin(Admin objAdmin)
         {
             //1、编写SQL语句
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("insert into tbl_user (deptid,userid,pwd,attendance,overtime,evaluation,assessment)");
-            sqlBuilder.Append(" values ('{0}','{1}','{2}',{3},{4},{5},{6})");
+            sqlBuilder.Append("insert into tbl_user (deptid,dept,userid,username,attendance,overtime,evaluation,assessment,开始日期,结束日期,备注,更改者,更改日期,pwd)");
+            sqlBuilder.Append(" values ({0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}')");
             //2、解析对象
-            string sql = string.Format(sqlBuilder.ToString(), objAdmin.deptid, objAdmin.userid, objAdmin.Attendance, objAdmin.Overtime, objAdmin.Evaluation, objAdmin.Assessment);
+            string sql = string.Format(sqlBuilder.ToString(), objAdmin.deptid, objAdmin.dept, objAdmin.userid, objAdmin.username, objAdmin.Attendance, objAdmin.Overtime, objAdmin.Evaluation, objAdmin.Assessment, objAdmin.开始日期, objAdmin.结束日期, objAdmin.备注, objAdmin.更改者, objAdmin.更改日期, objAdmin.pwd);
             //3、执行SQL语句，返回结果
             return SQLHelper.Update(sql);
         }
@@ -204,20 +204,34 @@ namespace DAL
         /// </summary>
         /// <param name="objAdmin"></param>
         /// <returns></returns>
-        public int ModifyAdmin(Admin objAdmin)
+        public int ModifyAdminbyId(Admin objAdmin)
         {
             //1、编写SQL语句
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("update tbl_user set deptid = '{0}',userid = '{1}',pwd = '{2}',attendance = {3},overtime = {4},evaluation = {5},assessment = {6}");
-            sqlBuilder.Append(" where id = {7}");
+            sqlBuilder.Append("update tbl_user set deptid = {0},dept = '{1}',userid = '{2}',username = '{3}',attendance = '{4}',overtime = '{5}',evaluation = '{6}',assessment = '{7}',开始日期 = '{8}',结束日期 = '{9}',备注 = '{10}',更改者 = '{11}',更改日期 = '{12}'");
+            sqlBuilder.Append(" where id = {13}");
             //2、解析对象
-            string sql = string.Format(sqlBuilder.ToString(), objAdmin.deptid, objAdmin.userid, objAdmin.Attendance, objAdmin.Overtime, objAdmin.Evaluation, objAdmin.Assessment, objAdmin.id);
+            string sql = string.Format(sqlBuilder.ToString(), objAdmin.deptid, objAdmin.dept, objAdmin.userid, objAdmin.username, objAdmin.Attendance, objAdmin.Overtime, objAdmin.Evaluation, objAdmin.Assessment, objAdmin.开始日期, objAdmin.结束日期, objAdmin.备注, objAdmin.更改者, objAdmin.更改日期, objAdmin.id);
             //3、执行SQL语句，返回结果
             return SQLHelper.Update(sql);
         }
 
-
-
+        /// <summary>
+        /// 删除管理员对象
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int DeleteAdminByID(int id)
+        {
+            //1、编写SQL语句
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append("delete from tbl_user");
+            sqlBuilder.Append(" where id = {0}");
+            //2、解析对象
+            string sql = string.Format(sqlBuilder.ToString(), id);
+            //3、执行SQL语句，返回结果
+            return SQLHelper.Update(sql);
+        }
 
 
 

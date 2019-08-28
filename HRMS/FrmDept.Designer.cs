@@ -65,6 +65,8 @@
             // 
             // tvDeptList
             // 
+            this.tvDeptList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tvDeptList.Location = new System.Drawing.Point(3, 3);
             this.tvDeptList.Name = "tvDeptList";
             this.tvDeptList.Size = new System.Drawing.Size(234, 307);
@@ -288,7 +290,7 @@
             this.tsbADDChild.Image = ((System.Drawing.Image)(resources.GetObject("tsbADDChild.Image")));
             this.tsbADDChild.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbADDChild.Name = "tsbADDChild";
-            this.tsbADDChild.Size = new System.Drawing.Size(76, 37);
+            this.tsbADDChild.Size = new System.Drawing.Size(76, 35);
             this.tsbADDChild.Text = "添加下级";
             this.tsbADDChild.Click += new System.EventHandler(this.tsbADDChild_Click);
             // 
@@ -297,7 +299,7 @@
             this.tsbSave.Image = ((System.Drawing.Image)(resources.GetObject("tsbSave.Image")));
             this.tsbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbSave.Name = "tsbSave";
-            this.tsbSave.Size = new System.Drawing.Size(52, 37);
+            this.tsbSave.Size = new System.Drawing.Size(52, 35);
             this.tsbSave.Text = "保存";
             this.tsbSave.Click += new System.EventHandler(this.tsbSave_Click);
             // 
@@ -306,7 +308,7 @@
             this.tsbDelete.Image = ((System.Drawing.Image)(resources.GetObject("tsbDelete.Image")));
             this.tsbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbDelete.Name = "tsbDelete";
-            this.tsbDelete.Size = new System.Drawing.Size(52, 37);
+            this.tsbDelete.Size = new System.Drawing.Size(52, 35);
             this.tsbDelete.Text = "删除";
             this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
@@ -315,7 +317,7 @@
             this.tsbClose.Image = ((System.Drawing.Image)(resources.GetObject("tsbClose.Image")));
             this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(76, 37);
+            this.tsbClose.Size = new System.Drawing.Size(76, 35);
             this.tsbClose.Text = "关闭窗口";
             this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
             // 
@@ -324,7 +326,7 @@
             this.tsbMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("tsbMoveUp.Image")));
             this.tsbMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbMoveUp.Name = "tsbMoveUp";
-            this.tsbMoveUp.Size = new System.Drawing.Size(52, 37);
+            this.tsbMoveUp.Size = new System.Drawing.Size(52, 35);
             this.tsbMoveUp.Text = "上移";
             this.tsbMoveUp.Click += new System.EventHandler(this.TsbMoveUp_Click);
             // 
@@ -333,7 +335,7 @@
             this.tsbMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("tsbMoveDown.Image")));
             this.tsbMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbMoveDown.Name = "tsbMoveDown";
-            this.tsbMoveDown.Size = new System.Drawing.Size(52, 37);
+            this.tsbMoveDown.Size = new System.Drawing.Size(52, 35);
             this.tsbMoveDown.Text = "下移";
             this.tsbMoveDown.Click += new System.EventHandler(this.TsbMoveDown_Click);
             // 
