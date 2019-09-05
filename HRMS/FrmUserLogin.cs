@@ -61,7 +61,7 @@ namespace HRMS
             try
             {
                 //提交用户信息
-                objAdmin = objAdminService.AdminLogin(objAdmin, DateTime.Now);
+                objAdmin = objAdminService.AdminLogin(objAdmin, Program.salaryDate.loginDate);
                 if (objAdmin == null)
                 {
                     MessageBox.Show("登录账号或密码错误！", "提示");

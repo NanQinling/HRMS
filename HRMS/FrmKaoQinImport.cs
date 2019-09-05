@@ -121,7 +121,7 @@ namespace HRMS
                     //给dt里面的空值赋值为0，否则遇到空值会报错。
                     for (int i = 0; i < dt_import.Rows.Count; i++)
                     {
-                        for (int j = index; j < index_end; j++)
+                        for (int j = index; j <= index_end; j++)
                         {
                             if (dt_import.Rows[i][j].ToString() == "")
                             {
@@ -142,8 +142,19 @@ namespace HRMS
             }
         }
 
+
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void btnImport_Click(object sender, EventArgs e)
         {
+
+
+            DataTable dt_import = (DataTable)dataGridView1.DataSource;
+
 
             if (dataGridView1.DataSource == null)
             {
@@ -151,16 +162,46 @@ namespace HRMS
                 return;
             }
 
-            DataTable dt_import = (DataTable)dataGridView1.DataSource;
-            //导入Excel模板验证
-            if (!dt_import.Columns.Contains("应出勤"))
+            string tableName = string.Empty;
+
+
+
+
+
+            if (rdbDD_YuanShi.Checked == true)
             {
-                MessageBox.Show("要导入的Excel文件人员不是考勤文件，请确认！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                tableName = "DD_YuanShi";
+                SQLHelper.ImportToSql(tableName, dt_import);
+
+            }
+            else if (rdbEmp_Bas.Checked == true)
+            {
+                tableName = "emp_bas";
+                SQLHelper.ImportToSql(tableName, dt_import);
+            }
+            else if (rdbEmp_Org.Checked == true)
+            {
+                tableName = "Emp_Org";
+                SQLHelper.ImportToSql(tableName, dt_import);
+            }
+            else if (rdbPosition.Checked == true)
+            {
+                tableName = "org_posi";
+                SQLHelper.ImportToSql(tableName, dt_import);
             }
 
-            if (ccbDingDing.Checked)
+
+
+
+            else if (rdbDD_YueDuHuiZong.Checked == true)
             {
+                //导入Excel模板验证
+                if (!dt_import.Columns.Contains("应出勤"))
+                {
+                    MessageBox.Show("要导入的Excel文件人员不是考勤文件，请确认！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
 
                 SQLHelper.Update($"delete from imp_attendance where 考勤年月= '{Program.salaryDate.last_year_month}'");
 
@@ -192,8 +233,20 @@ namespace HRMS
 
 
             }
-            else
+            else if (rdbKaoQin.Checked == true)
             {
+
+
+                //导入Excel模板验证
+                if (!dt_import.Columns.Contains("应出勤"))
+                {
+                    MessageBox.Show("要导入的Excel文件人员不是考勤文件，请确认！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+
+
                 #region 校验导入的Excel数据是否为数值型以及备注字符长度大于30，有误数据标记为红色，通过数据恢复为白色。
 
                 int IsWrong = 0;
@@ -268,47 +321,17 @@ namespace HRMS
                 this.dataGridView1.DataSource = null;
                 MessageBox.Show($"{importCount.ToString()}条数据导入成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txterr.Text = null;
+
+
             }
 
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            DataTable dt_import = (DataTable)dataGridView1.DataSource;
-
-            //List<DD_YuanShi> objYuanShi = objKaoQinService.DataTableToList_YuanShi(dt_import);
-
-            //int importCount = 0;
-            //foreach (var item in objYuanShi)
-            //{
-
-            //    try
-            //    {
-            //        //导入数据
-            //        if (objKaoQinService.InsertDD_YuanShi(item) == 1)
-            //        {
-            //            importCount++;
-            //        }
-
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
-            //}
-            //this.dataGridView1.DataSource = null;
-            //MessageBox.Show($"{importCount.ToString()}条数据导入成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
-            string tableName = "DD_YuanShi";
-            SQLHelper.ImportToSql(tableName, dt_import);
+
+
+
+
 
 
 

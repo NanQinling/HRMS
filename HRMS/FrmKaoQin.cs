@@ -16,7 +16,16 @@ namespace HRMS
         /// </summary>
         private void init_dgvKaoQin()
         {
-            List<KaoQin> list = objKaoQinService.GetKaoQinByDept(Program.salaryDate.last_year_month, Program.currentAdmin.dept);
+            List<KaoQin> list = objKaoQinService.GetAllKaoQin(Program.salaryDate.last_year_month);
+            SetDgvKaoQinFormat(list);
+        }
+
+        /// <summary>
+        /// 设置表格显示格式
+        /// </summary>
+        /// <param name="list"></param>
+        private void SetDgvKaoQinFormat(List<KaoQin> list)
+        {
             this.dgvKaoQin.DataSource = list;
             this.dgvKaoQin.AllowUserToAddRows = false;
             this.dgvKaoQin.AllowUserToDeleteRows = false;
@@ -34,6 +43,10 @@ namespace HRMS
             for (int i = 0; i < dgvKaoQin.Columns.Count; i++)
             {
                 if (i == 0 || i == dgvKaoQin.Columns.Count - 1 || i == dgvKaoQin.Columns.Count - 2 || i == dgvKaoQin.Columns.Count - 3 || i == dgvKaoQin.Columns.Count - 4)
+                {
+                    dgvKaoQin.Columns[i].Visible = false;
+                }
+                if (dgvKaoQin.Columns[i].Name == "部门")
                 {
                     dgvKaoQin.Columns[i].Visible = false;
                 }
@@ -246,6 +259,12 @@ namespace HRMS
         {
             DataGridViewStyle.DgvRowPostPaint(dgvKaoQin, e);
 
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            List<KaoQin> list = objKaoQinService.GetNotSubmitKaoQin(Program.salaryDate.last_year_month);
+            SetDgvKaoQinFormat(list);
         }
     }
 }
