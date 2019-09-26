@@ -250,28 +250,52 @@ namespace DAL
                 };
             }
 
+            //if (objJiaBanFromKaoQin.休息日加班 <= 4)
+            //{
+            //    if (objJiaBanFromKaoQin.正常调休 <= objJiaBanFromKaoQin.休息日加班 + objJiaBanFromKaoQin.节假日加班)
+            //    {
+            //        objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + objJiaBanFromKaoQin.休息日加班 * 80 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 80;
+            //    }
+            //    else
+            //    {
+            //        objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + objJiaBanFromKaoQin.休息日加班 * 80 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 100;
+            //    }
+            //}
+            //if (objJiaBanFromKaoQin.休息日加班 > 4)
+            //{
+            //    if (objJiaBanFromKaoQin.正常调休 <= objJiaBanFromKaoQin.休息日加班 + objJiaBanFromKaoQin.节假日加班)
+            //    {
+            //        objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + 4 * 80 + (objJiaBanFromKaoQin.休息日加班 - 4) * 160 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 80;
+            //    }
+            //    else
+            //    {
+            //        objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + 4 * 80 + (objJiaBanFromKaoQin.休息日加班 - 4) * 160 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 100;
+            //    }
+            //}
+
+            //先算应发
             if (objJiaBanFromKaoQin.休息日加班 <= 4)
             {
-                if (objJiaBanFromKaoQin.正常调休 <= objJiaBanFromKaoQin.休息日加班 + objJiaBanFromKaoQin.节假日加班)
-                {
-                    objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + objJiaBanFromKaoQin.休息日加班 * 80 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 80;
-                }
-                else
-                {
-                    objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + objJiaBanFromKaoQin.休息日加班 * 80 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 100;
-                }
+                objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + objJiaBanFromKaoQin.休息日加班 * 80 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50;
             }
             if (objJiaBanFromKaoQin.休息日加班 > 4)
             {
-                if (objJiaBanFromKaoQin.正常调休 <= objJiaBanFromKaoQin.休息日加班 + objJiaBanFromKaoQin.节假日加班)
-                {
-                    objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + 4 * 80 + (objJiaBanFromKaoQin.休息日加班 - 4) * 160 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 80;
-                }
-                else
-                {
-                    objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + 4 * 80 + (objJiaBanFromKaoQin.休息日加班 - 4) * 160 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50 - objJiaBanFromKaoQin.正常调休 * 100;
-                }
+                objJiaBanFromKaoQin.金额 = objJiaBanFromKaoQin.工作日加班次数 * 50 + 4 * 80 + (objJiaBanFromKaoQin.休息日加班 - 4) * 160 + objJiaBanFromKaoQin.节假日加班 * 80 * 3 + (objJiaBanFromKaoQin.夜间值班次数 - objJiaBanFromKaoQin.夜间值班调休次数) * 50;
             }
+
+            //再算应扣
+
+            objJiaBanFromKaoQin.金额 -= objJiaBanFromKaoQin.正常调休 * 80;
+            if (objJiaBanFromKaoQin.金额 < 0)
+            {
+                objJiaBanFromKaoQin.金额 -= objJiaBanFromKaoQin.工作日加班次数 * 50;
+            }
+            if (objJiaBanFromKaoQin.金额 < 0)
+            {
+                objJiaBanFromKaoQin.金额 -= objJiaBanFromKaoQin.节假日加班 * 240;
+            }
+
+
 
             objReader.Close();
             return objJiaBanFromKaoQin;

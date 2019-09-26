@@ -41,13 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin.cs" />
-    <Compile Include="bas_Dept.cs" />
     <Compile Include="DD_YuanShi.cs" />
+    <Compile Include="GangWei.cs" />
     <Compile Include="JiaBan.cs" />
     <Compile Include="JiGou.cs" />
     <Compile Include="KaoQin.cs" />
     <Compile Include="MyDate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="ZuZhiFenPei.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

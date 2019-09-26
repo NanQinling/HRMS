@@ -196,7 +196,9 @@ namespace HRMS
 
         private void 岗位管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            CloseForm();
+            FrmPosi objForm = new FrmPosi();
+            this.OpenForm(objForm);
         }
 
         private void 内设机构管理ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -210,6 +212,13 @@ namespace HRMS
         {
             CloseForm();
             FrmAuthority objForm = new FrmAuthority();
+            this.OpenForm(objForm);
+        }
+
+        private void 基本信息管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseForm();
+            FrmUserInfo objForm = new FrmUserInfo();
             this.OpenForm(objForm);
         }
     }

@@ -15,6 +15,8 @@ namespace HRMS
     {
 
         private KaoQinService objKaoQinService = new DAL.KaoQinService();//创建数据访问类对象
+        private ControlService objControlService = new DAL.ControlService();
+
         private int suodinglie = 6;//表格锁定的列数
         /// <summary>
         /// 考勤表格初始化
@@ -111,24 +113,26 @@ namespace HRMS
                     if (dt_import.Columns.Contains("应出勤天数") && dt_import.Columns.Contains("UserId"))
                     {
                         dt_import = objKaoQinService.GetDingDingDataTable(Program.salaryDate.last_year_month, Program.salaryDate.current_year_month, dt_import);
+
+                        string[] strs = objControlService.GetColumnsByDataTable(dt_import);
+                        var index = strs.ToList().IndexOf("应出勤");
+                        var index_end = strs.ToList().IndexOf("工作时长");
+                        //给dt里面的空值赋值为0，否则遇到空值会报错。
+                        for (int i = 0; i < dt_import.Rows.Count; i++)
+                        {
+                            for (int j = index; j <= index_end; j++)
+                            {
+                                if (dt_import.Rows[i][j].ToString() == "")
+                                {
+                                    dt_import.Rows[i][j] = 0;
+                                }
+                            }
+                        }
                     }
 
                     dataGridView1.DataSource = dt_import;
 
-                    string[] strs = DataTableService.GetColumnsByDataTable(dt_import);
-                    var index = strs.ToList().IndexOf("应出勤");
-                    var index_end = strs.ToList().IndexOf("工作时长");
-                    //给dt里面的空值赋值为0，否则遇到空值会报错。
-                    for (int i = 0; i < dt_import.Rows.Count; i++)
-                    {
-                        for (int j = index; j <= index_end; j++)
-                        {
-                            if (dt_import.Rows[i][j].ToString() == "")
-                            {
-                                dt_import.Rows[i][j] = 0;
-                            }
-                        }
-                    }
+
 
                     init_dgvImport();
                     btnImport.Enabled = true;

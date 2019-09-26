@@ -35,6 +35,8 @@
             this.tsmiImportAttendance = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExportPrintKaoQin = new System.Windows.Forms.ToolStripMenuItem();
             this.系统ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.权限管理AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.数据备份BToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tmiModifyPwd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,8 +78,6 @@
             this.toolStripStatusLabel12 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel10 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel13 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.权限管理AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -126,28 +126,40 @@
             this.系统ToolStripMenuItem.Size = new System.Drawing.Size(83, 21);
             this.系统ToolStripMenuItem.Text = "系统管理(&S)";
             // 
+            // 权限管理AToolStripMenuItem
+            // 
+            this.权限管理AToolStripMenuItem.Name = "权限管理AToolStripMenuItem";
+            this.权限管理AToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.权限管理AToolStripMenuItem.Text = "权限管理(&A)";
+            this.权限管理AToolStripMenuItem.Click += new System.EventHandler(this.权限管理AToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(141, 6);
+            // 
             // 数据备份BToolStripMenuItem
             // 
             this.数据备份BToolStripMenuItem.Name = "数据备份BToolStripMenuItem";
-            this.数据备份BToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.数据备份BToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.数据备份BToolStripMenuItem.Text = "数据备份(&B)";
             // 
             // tmiModifyPwd
             // 
             this.tmiModifyPwd.Name = "tmiModifyPwd";
-            this.tmiModifyPwd.Size = new System.Drawing.Size(180, 22);
+            this.tmiModifyPwd.Size = new System.Drawing.Size(144, 22);
             this.tmiModifyPwd.Text = "密码修改(&M)";
             this.tmiModifyPwd.Click += new System.EventHandler(this.tmiModifyPwd_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
             // 
             // tmiClose
             // 
             this.tmiClose.Name = "tmiClose";
-            this.tmiClose.Size = new System.Drawing.Size(180, 22);
+            this.tmiClose.Size = new System.Drawing.Size(144, 22);
             this.tmiClose.Text = "退出系统(&X)";
             this.tmiClose.Click += new System.EventHandler(this.tmiClose_Click);
             // 
@@ -178,14 +190,14 @@
             // 内设机构管理ToolStripMenuItem
             // 
             this.内设机构管理ToolStripMenuItem.Name = "内设机构管理ToolStripMenuItem";
-            this.内设机构管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.内设机构管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.内设机构管理ToolStripMenuItem.Text = "内设机构管理";
             this.内设机构管理ToolStripMenuItem.Click += new System.EventHandler(this.内设机构管理ToolStripMenuItem_Click);
             // 
             // 岗位管理ToolStripMenuItem
             // 
             this.岗位管理ToolStripMenuItem.Name = "岗位管理ToolStripMenuItem";
-            this.岗位管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.岗位管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.岗位管理ToolStripMenuItem.Text = "岗位管理";
             this.岗位管理ToolStripMenuItem.Click += new System.EventHandler(this.岗位管理ToolStripMenuItem_Click);
             // 
@@ -242,8 +254,9 @@
             // 基本信息管理ToolStripMenuItem
             // 
             this.基本信息管理ToolStripMenuItem.Name = "基本信息管理ToolStripMenuItem";
-            this.基本信息管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.基本信息管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.基本信息管理ToolStripMenuItem.Text = "基本信息管理";
+            this.基本信息管理ToolStripMenuItem.Click += new System.EventHandler(this.基本信息管理ToolStripMenuItem_Click);
             // 
             // 薪酬管理ToolStripMenuItem
             // 
@@ -441,18 +454,6 @@
             this.toolStripStatusLabel13.Name = "toolStripStatusLabel13";
             this.toolStripStatusLabel13.Size = new System.Drawing.Size(119, 12);
             this.toolStripStatusLabel13.Text = "Copyright(C) 南秦岭";
-            // 
-            // 权限管理AToolStripMenuItem
-            // 
-            this.权限管理AToolStripMenuItem.Name = "权限管理AToolStripMenuItem";
-            this.权限管理AToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.权限管理AToolStripMenuItem.Text = "权限管理(&A)";
-            this.权限管理AToolStripMenuItem.Click += new System.EventHandler(this.权限管理AToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // FrmMain
             // 

@@ -28,54 +28,14 @@ namespace HRMS
 
 
 
-        private AdminService objAdminService = new AdminService();
-        private JiGouService objJiGouService = new JiGouService();
+        private AdminService objAdminService = new DAL.AdminService();
+        private ControlService objControlService = new DAL.ControlService();
+        private JiGouService objJiGouService = new DAL.JiGouService();
         private List<Admin> nodeList = null;
 
 
-        /// <summary>
-        /// 清空当前文本框
-        /// </summary>
-        private void init_groupBox()
-        {
-            foreach (Control item in this.groupBox.Controls)
-            {
-                if (item is TextBox)
-                {
-                    item.Text = "";
-                }
-                else if (item is RadioButton)
-                {
-                    ((RadioButton)item).Checked = false;
-                }
-                else if (item is ComboBox)
-                {
-                    ((ComboBox)item).SelectedIndex = -1;//不选择
-                }
-                else if (item is CheckBox)
-                {
-                    ((CheckBox)item).Checked = false;//不选择
-                }
-            }
-        }
 
-        //所有控件不可编辑
-        private void item_disabled()
-        {
-            foreach (Control item in this.groupBox.Controls)
-            {
-                item.Enabled = false;
-            }
-        }
 
-        //所有控件可编辑
-        private void item_able()
-        {
-            foreach (Control item in this.groupBox.Controls)
-            {
-                item.Enabled = true;
-            }
-        }
 
 
 
@@ -141,13 +101,12 @@ namespace HRMS
         {
             if (e.Node.Level == 1)
             {
-                init_groupBox();
-
+                objControlService.init_GroupBox(groupBox);
                 int deptid = Convert.ToInt32(e.Node.Tag.ToString());//查询、删除时使用
                 JiGou objJiGou = objJiGouService.GetJiGouByJiGouID(DateTime.Now, deptid); //查询创建对象
                 this.txtDeptId.Text = objJiGou.机构编号.ToString();
                 this.txtDept.Text = objJiGou.机构简称.ToString();
-                item_disabled();
+                objControlService.DisabledGroupBoxItem(groupBox);
 
 
 
@@ -171,7 +130,7 @@ namespace HRMS
                 this.txtStartDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objAdmin.开始日期.ToString()));
                 this.txtEndDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objAdmin.结束日期.ToString()));
 
-                item_able();
+                objControlService.EnabledGroupBoxItem(groupBox);
                 this.txtDeptId.Enabled = false;
                 this.txtDept.Enabled = false;
 
@@ -190,14 +149,14 @@ namespace HRMS
             }
             else
             {
-                init_groupBox();
-                item_disabled();
+                objControlService.init_GroupBox(groupBox);
+                objControlService.DisabledGroupBoxItem(groupBox);
             }
         }
 
         private void tsbADD_Click(object sender, EventArgs e)
         {
-            item_able();
+            objControlService.EnabledGroupBoxItem(groupBox);
             this.txtDeptId.Enabled = false;
             this.txtDept.Enabled = false;
             this.txtStartDate.Text = string.Format("{0:yyyy.MM.dd}", DateTime.Now);
@@ -251,7 +210,7 @@ namespace HRMS
                             bAdd = false;
                         }
                         LoadDeptList();
-                        init_groupBox();//清空用户的输入 
+                        objControlService.init_GroupBox(groupBox);
                     }
                     else
                     {
@@ -296,7 +255,7 @@ namespace HRMS
                     if (objAdminService.ModifyAdminbyId(objAdmin) == 1)
                     {
                         LoadDeptList();
-                        init_groupBox();//清空用户的输入 
+                        objControlService.init_GroupBox(groupBox);
                         MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;//返回修改成功的信息
                     }
@@ -334,7 +293,7 @@ namespace HRMS
                 if (objAdminService.DeleteAdminByID(id) == 1)
                 {
                     LoadDeptList();
-                    init_groupBox();
+                    objControlService.init_GroupBox(groupBox);
                 }
             }
             catch (Exception ex)

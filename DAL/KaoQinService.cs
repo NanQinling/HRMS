@@ -15,6 +15,7 @@ namespace DAL
     /// </summary>
     public class KaoQinService
     {
+        private ControlService objControlService = new DAL.ControlService();
 
         /// <summary>
         /// 查询所有考勤对象
@@ -182,7 +183,7 @@ namespace DAL
             {
                 err.Append($"人员编号【{objKaoQin.人员编号}】，姓名【{objKaoQin.姓名}】节假日加班不应大于7天！\r\n");
             }
-            if (objKaoQin.正常调休 > objKaoQin.休息日加班 + objKaoQin.节假日加班 + objKaoQin.工作日加班次数)
+            if (objKaoQin.正常调休 > objKaoQin.休息日加班 + objKaoQin.节假日加班 + objKaoQin.工作日加班次数 / 2)
             {
                 err.Append($"人员编号【{objKaoQin.人员编号}】，姓名【{objKaoQin.姓名}】正常调休天数不应大于加班天数！\r\n");
             }
@@ -324,7 +325,7 @@ namespace DAL
         public DataTable GetDingDingDataTable(string last_year_month, string current_year_month, DataTable dt_import)
         {
             //查找表格中的指定标题的列索引
-            string[] strs = DataTableService.GetColumnsByDataTable(dt_import);
+            string[] strs = objControlService.GetColumnsByDataTable(dt_import);
             var index = strs.ToList().IndexOf("应出勤天数");
             //将表格中没有数据的字段填充为0
             for (int i = 0; i < dt_import.Rows.Count; i++)
@@ -340,7 +341,7 @@ namespace DAL
 
             string sql = $"select ROW_NUMBER() over (order by emp_bas.id) as 序号,{last_year_month} as 考勤年月,'' as 部门,'' as 班组,emp_bas.人员编号,emp_bas.姓名,'' as 应出勤,'' as 实际出勤,'' as 出差,'' as 旷工,'' as 年假,'' as 事假,'' as 病假,'' as 正常调休,'' as 产假,'' as 陪产假,'' as 婚假,'' as 丧假,'' as 迟到早退次数,'' as 缺卡次数,'' as 工作日加班次数,'' as 休息日加班,'' as 节假日加班,'' as 休息日出差,'' as 夜间值班次数,'' as 夜间值班调休次数,'' as 打卡签到次数,'' as 工作时长,'' as 本人签字,'' as 备注 from emp_bas";
             sql += $" inner join emp_org on emp_bas.人员编号 = emp_org.人员编号";
-            sql += $" where '{current_year_month}'+'01' between emp_org.开始日期 and emp_org.结束日期";
+            sql += $" where '{current_year_month}'+'01' between emp_org.开始日期 and emp_org.结束日期 order by emp_org.排序 DESC";
             DataTable dt_user = SQLHelper.GetDataTable(sql);
 
             for (int i = 0; i < dt_user.Rows.Count; i++)

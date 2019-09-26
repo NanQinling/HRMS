@@ -10,6 +10,7 @@ namespace HRMS
     public partial class FrmKaoQin : Form
     {
         private KaoQinService objKaoQinService = new DAL.KaoQinService();//创建数据访问类对象
+        private ControlService objControlService = new DAL.ControlService();
 
         /// <summary>
         /// 加班表格初始化
@@ -66,27 +67,6 @@ namespace HRMS
             }
         }
 
-        /// <summary>
-        /// 清空当前文本框
-        /// </summary>
-        private void init_gbKaoQin()
-        {
-            foreach (Control item in this.gbKaoQin.Controls)
-            {
-                if (item is TextBox)
-                {
-                    item.Text = "";
-                }
-                else if (item is RadioButton)
-                {
-                    ((RadioButton)item).Checked = false;
-                }
-                else if (item is ComboBox)
-                {
-                    ((ComboBox)item).SelectedIndex = -1;//不选择
-                }
-            }
-        }
 
         /// <summary>
         /// 封装对象
@@ -190,7 +170,7 @@ namespace HRMS
                 {
                     MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     init_dgvKaoQin();
-                    init_gbKaoQin();
+                    objControlService.init_GroupBox(gbKaoQin);
                     txterr.Text = "";
                 }
             }
@@ -261,10 +241,11 @@ namespace HRMS
 
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void BtnNotSubmit_Click(object sender, EventArgs e)
         {
             List<KaoQin> list = objKaoQinService.GetNotSubmitKaoQin(Program.salaryDate.last_year_month);
             SetDgvKaoQinFormat(list);
         }
+
     }
 }
