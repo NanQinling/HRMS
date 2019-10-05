@@ -65,6 +65,9 @@ namespace DAL
             objNewItem.EnsureVisible();
         }
 
+
+
+
         /// <summary>
         /// 按照ListView排序对数据表进行排序更新
         /// </summary>
@@ -84,6 +87,93 @@ namespace DAL
             //3、执行SQL语句，返回结果
             SQLHelper.Update(sql);
         }
+
+
+
+
+
+        /// <summary>
+        /// 上下移动DataGridView，要使用SelectedRows[0] ,就必须设置这个属性:dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        /// </summary>
+        /// <param name="toDataGridView"></param>
+        /// <param name="tnMoveStep">-2表示到首，-1表示上移，1表示下称，2表示到末</param>
+        public void MoveDataGridViewX(DataGridView toDataGridView, int tnMoveStep)
+        {
+            if (toDataGridView.SelectedRows.Count != 1)
+            {
+                return;
+            }
+
+            int rowIndex = toDataGridView.SelectedRows[0].Index;  //得到当前选中行的索引
+
+            List<string> list = new List<string>();
+            for (int i = 0; i < toDataGridView.Columns.Count; i++)
+            {
+                list.Add(toDataGridView.SelectedRows[0].Cells[i].Value.ToString());   //把当前选中行的数据存入list数组中 
+            }
+
+            //取得新的位置
+            if (tnMoveStep == -1)
+            {
+                if (rowIndex == 0)  //判断是否到顶行
+                {
+                    return;
+                }
+
+                for (int j = 0; j < toDataGridView.Columns.Count; j++)
+                {
+                    toDataGridView.Rows[rowIndex].Cells[j].Value = toDataGridView.Rows[rowIndex - 1].Cells[j].Value;
+                    toDataGridView.Rows[rowIndex - 1].Cells[j].Value = list[j].ToString();
+                }
+                toDataGridView.Rows[rowIndex].Selected = false;
+                toDataGridView.Rows[rowIndex - 1].Selected = true;
+            }
+            else if (tnMoveStep == 1)
+            {
+                if (rowIndex == toDataGridView.Rows.Count - 1)   //判断是否到底行
+                {
+                    return;
+                }
+
+                for (int j = 0; j < toDataGridView.Columns.Count; j++)
+                {
+                    toDataGridView.Rows[rowIndex].Cells[j].Value = toDataGridView.Rows[rowIndex + 1].Cells[j].Value;
+                    toDataGridView.Rows[rowIndex + 1].Cells[j].Value = list[j].ToString();
+                }
+                toDataGridView.Rows[rowIndex].Selected = false;
+                toDataGridView.Rows[rowIndex + 1].Selected = true;
+            }
+            else if (tnMoveStep < -1)
+            {
+                for (int j = 0; j < toDataGridView.Columns.Count; j++)
+                {
+                    for (int k = rowIndex; k > 0; k--)
+                    {
+                        toDataGridView.Rows[k].Cells[j].Value = toDataGridView.Rows[k - 1].Cells[j].Value;
+                    }
+                    toDataGridView.Rows[0].Cells[j].Value = list[j].ToString();
+                }
+                toDataGridView.Rows[rowIndex].Selected = false;
+                toDataGridView.Rows[0].Selected = true;
+            }
+            else if (tnMoveStep > 1)
+            {
+                for (int j = 0; j < toDataGridView.Columns.Count; j++)
+                {
+                    for (int k = rowIndex; k < toDataGridView.Rows.Count - 1; k++)
+                    {
+                        toDataGridView.Rows[k].Cells[j].Value = toDataGridView.Rows[k + 1].Cells[j].Value;
+
+                    }
+                    toDataGridView.Rows[toDataGridView.Rows.Count - 1].Cells[j].Value = list[j].ToString();
+                }
+                toDataGridView.Rows[rowIndex].Selected = false;
+                toDataGridView.Rows[toDataGridView.Rows.Count - 1].Selected = true;
+            }
+
+        }
+
+
 
     }
 }

@@ -25,14 +25,14 @@ namespace Models
         public string 更改者 { get; set; }
         public DateTime 更改日期 { get; set; }
 
-
         public int id { get; set; }
         public string dt { get; set; }
         public string 岗位性质长文本 { get; set; }
 
+        public string 所属二级机构 { get; set; }
+        public string 所属三级机构 { get; set; }
 
-
-
+        public string 内设机构层级 { get; set; }
 
 
 

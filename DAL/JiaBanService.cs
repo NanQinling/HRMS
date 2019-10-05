@@ -23,7 +23,11 @@ namespace DAL
         /// <returns></returns>
         public List<JiaBan> GetJiaBanByDept(string last_year_month, string dept)
         {
-            string sql = "select 考勤年月,部门,人员编号,姓名,工作日加班次数,休息日加班,节假日加班,正常调休,夜间值班次数,夜间值班调休次数,金额,备注,更改者,更改日期 from imp_overtime where 考勤年月 = '{0}' and 部门 = '{1}' and 金额 > 0 union all select 考勤年月, 部门, 人员编号, 姓名, 工作日加班次数, 休息日加班, 节假日加班, 正常调休, 夜间值班次数, 夜间值班调休次数,0 as 金额,'' as 备注,更改者,更改日期 from imp_attendance where 考勤年月 = '{2}' and 部门 = '{3}' and not EXISTS (select 考勤年月, 部门, 人员编号, 姓名, 工作日加班次数, 休息日加班, 节假日加班, 正常调休, 夜间值班次数,夜间值班调休次数, 金额, 备注, 更改者, 更改日期 from imp_overtime where 考勤年月 = '{4}' and 部门 = '{5}' and 金额 > 0 and imp_attendance.人员编号 = imp_overtime.人员编号)";
+            string sql = "select 考勤年月,部门,人员编号,姓名,工作日加班次数,休息日加班,节假日加班,正常调休,夜间值班次数,夜间值班调休次数,金额,备注,更改者,更改日期 from imp_overtime";
+            sql += " inner join imp_attendance on imp_attendance.人员编号 = imp_overtime.人员编号";
+            sql += " where 考勤年月 = '{0}' and 部门 = '{1}' and 金额 > 0 order by imp_attendance.排序";
+            sql += " union all select 考勤年月, 部门, 人员编号, 姓名, 工作日加班次数, 休息日加班, 节假日加班, 正常调休, 夜间值班次数, 夜间值班调休次数,0 as 金额,'' as 备注,更改者,更改日期 from imp_attendance";
+            sql += " where 考勤年月 = '{2}' and 部门 = '{3}' and not EXISTS (select 考勤年月, 部门, 人员编号, 姓名, 工作日加班次数, 休息日加班, 节假日加班, 正常调休, 夜间值班次数,夜间值班调休次数, 金额, 备注, 更改者, 更改日期 from imp_overtime where 考勤年月 = '{4}' and 部门 = '{5}' and 金额 > 0 and imp_attendance.人员编号 = imp_overtime.人员编号) order by imp_attendance.排序";
             sql = string.Format(sql, last_year_month, dept, last_year_month, dept, last_year_month, dept);
 
             SqlDataReader objReader = SQLHelper.GetReader(sql);

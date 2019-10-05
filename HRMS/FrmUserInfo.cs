@@ -19,6 +19,21 @@ namespace HRMS
         {
             InitializeComponent();
 
+            init_UserInfoCombox();
+
+            init_dgvUserInfo();
+            objControlService.DisabledGroupBoxItem(groupBox1);
+
+            objControlService.DisabledTabPageItem(tabPage1);
+            objControlService.DisabledTabPageItem(tabPage2);
+
+
+
+
+        }
+
+        private void init_UserInfoCombox()
+        {
             //初始化入职原因下拉框
             this.cmbRuZhiYuanYin.DataSource = objUserInfoService.GetAllXinZeng();
             this.cmbRuZhiYuanYin.DisplayMember = "入职原因长文本";
@@ -43,12 +58,11 @@ namespace HRMS
             this.cmbJiangJinBiaoShi.ValueMember = "奖金银行代码";
             this.cmbJiangJinBiaoShi.SelectedIndex = -1;
 
-
-            init_dgvUserInfo();
-
-
-
-
+            //初始化员工子组下拉框
+            this.cmbYuanGongZiZu.DataSource = objZuZhiFenPeiService.GetAllYuanGonGZiZu();
+            this.cmbYuanGongZiZu.DisplayMember = "员工子组的名称";
+            this.cmbYuanGongZiZu.ValueMember = "EG";
+            this.cmbYuanGongZiZu.SelectedIndex = -1;
         }
 
         private UserInfoService objUserInfoService = new DAL.UserInfoService();
@@ -67,28 +81,49 @@ namespace HRMS
 
 
         /// <summary>
-        /// 加班表格初始化
+        /// 人员名单dataGridView格初始化
         /// </summary>
         private void init_dgvUserInfo()
         {
             List<UserInfo> list = objUserInfoService.GetUserInfoListAll();
-            SetDgvUserInfoFormat(list);
+            SetDgvAllUserFormat(list);
             objControlService.DisabledTabPageItem(tabPage1);
         }
 
 
         /// <summary>
+        /// 项目dataGridView格初始化
+        /// </summary>
+        private void init_dgvProject(string strUserId)
+        {
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                List<UserInfo> list_Project = objUserInfoService.GetUserInfoListByUserId(strUserId);
+                SetDgvUserInfoFormat(list_Project);
+                objControlService.DisabledTabPageItem(tabPage1);
+            }
+            else if (tabControl1.SelectedTab == tabPage2)
+            {
+                List<ZuZhiFenPei> list_Project = objZuZhiFenPeiService.GetZuZhiFenPeiListByUserId(strUserId);
+                SetDgvZuZhiFenPeiFormat(list_Project);
+                objControlService.DisabledTabPageItem(tabPage2);
+            }
+
+        }
+
+        /// <summary>
         /// 设置表格显示格式
         /// </summary>
         /// <param name="list"></param>
-        private void SetDgvUserInfoFormat(List<UserInfo> list)
+        private void SetDgvAllUserFormat(List<UserInfo> list)
         {
-            this.dataGridView1.DataSource = list;
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Columns[3].Frozen = true;
+            this.dgvAllUser.DataSource = list;
+            this.dgvAllUser.AllowUserToAddRows = false;
+            this.dgvAllUser.AllowUserToDeleteRows = false;
+            this.dgvAllUser.ReadOnly = true;
+            this.dgvAllUser.MultiSelect = false;
+            this.dgvAllUser.Columns[3].Frozen = true;
+            this.dgvAllUser.RowHeadersVisible = false;
 
             ////禁止 DataGridView 点击 列标题 排序
             //for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
@@ -125,10 +160,125 @@ namespace HRMS
 
 
         /// <summary>
-        /// 根据dataGridView查询详细信息，tabPage1
+        /// 设置表格显示格式
         /// </summary>
-        /// <param name="intUserId"></param>
-        private void GetUserInfotabPage1(string strUserId)
+        /// <param name="list"></param>
+        private void SetDgvUserInfoFormat(List<UserInfo> list)
+        {
+            this.dgvProject.DataSource = list;
+            this.dgvProject.AllowUserToAddRows = false;
+            this.dgvProject.AllowUserToDeleteRows = false;
+            this.dgvProject.ReadOnly = true;
+            this.dgvProject.MultiSelect = false;
+            this.dgvProject.Columns[3].Frozen = true;
+            this.dgvProject.RowHeadersVisible = false;
+
+            ////禁止 DataGridView 点击 列标题 排序
+            //for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
+            //{
+            //    dgvKaoQin.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //}
+
+            ////隐藏不必要的列
+            //for (int i = 0; i < dgvKaoQin.Columns.Count; i++)
+            //{
+            //    if (i == 0 || i == dgvKaoQin.Columns.Count - 1 || i == dgvKaoQin.Columns.Count - 2 || i == dgvKaoQin.Columns.Count - 3 || i == dgvKaoQin.Columns.Count - 4)
+            //    {
+            //        dgvKaoQin.Columns[i].Visible = false;
+            //    }
+            //    if (dgvKaoQin.Columns[i].Name == "部门")
+            //    {
+            //        dgvKaoQin.Columns[i].Visible = false;
+            //    }
+            //}
+            ////调整列宽
+            //for (int i = 0; i < dgvKaoQin.Columns.Count; i++)
+            //{
+            //    if (i == 1 || i == 2 || i == 3 || i == 25)
+            //    {
+            //        dgvKaoQin.Columns[i].Width = 80;
+            //    }
+
+            //    else if (i == 0 || (i >= 4 && i < 25))
+            //    {
+            //        dgvKaoQin.Columns[i].Width = 40;
+            //    }
+            //}
+        }
+
+        private void SetDgvZuZhiFenPeiFormat(List<ZuZhiFenPei> list)
+        {
+            this.dgvProject.DataSource = list;
+            this.dgvProject.AllowUserToAddRows = false;
+            this.dgvProject.AllowUserToDeleteRows = false;
+            this.dgvProject.ReadOnly = true;
+            this.dgvProject.MultiSelect = false;
+            this.dgvProject.Columns[3].Frozen = true;
+
+            ////禁止 DataGridView 点击 列标题 排序
+            //for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
+            //{
+            //    dgvKaoQin.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //}
+
+            ////隐藏不必要的列
+            //for (int i = 0; i < dgvKaoQin.Columns.Count; i++)
+            //{
+            //    if (i == 0 || i == dgvKaoQin.Columns.Count - 1 || i == dgvKaoQin.Columns.Count - 2 || i == dgvKaoQin.Columns.Count - 3 || i == dgvKaoQin.Columns.Count - 4)
+            //    {
+            //        dgvKaoQin.Columns[i].Visible = false;
+            //    }
+            //    if (dgvKaoQin.Columns[i].Name == "部门")
+            //    {
+            //        dgvKaoQin.Columns[i].Visible = false;
+            //    }
+            //}
+            ////调整列宽
+            //for (int i = 0; i < dgvKaoQin.Columns.Count; i++)
+            //{
+            //    if (i == 1 || i == 2 || i == 3 || i == 25)
+            //    {
+            //        dgvKaoQin.Columns[i].Width = 80;
+            //    }
+
+            //    else if (i == 0 || (i >= 4 && i < 25))
+            //    {
+            //        dgvKaoQin.Columns[i].Width = 40;
+            //    }
+            //}
+        }
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 根据dataGridView双击行数据查询人员组织信息
+        /// </summary>
+        /// <param name="strUserId"></param>
+        private void GetUserInfoGroupBox(string strUserId)
+        {
+            ZuZhiFenPei objZuZhiFenPei = objZuZhiFenPeiService.GetZuZhiByUserID(DateTime.Now, strUserId);
+            this.txtUserID.Text = objZuZhiFenPei.人员编号;
+            this.txtViewName.Text = objZuZhiFenPei.姓名;
+            this.txtZuZhiDanWei.Text = objZuZhiFenPei.二级内设机构 + objZuZhiFenPei.三级内设机构;
+            this.txtRenShiFanWei.Text = objZuZhiFenPei.人事范围;
+            this.txtYuanGongZu.Text = objZuZhiFenPei.员工组;
+            this.txtZhiWei.Text = objZuZhiFenPei.职位名称;
+            this.txtRenShiZiFanWei.Text = objZuZhiFenPei.人事子范围;
+            this.txtYuanGongZiZu.Text = objZuZhiFenPei.员工子组的名称;
+        }
+
+        /// <summary>
+        /// 根据dataGridView双击行数据查询人员信息
+        /// </summary>
+        /// <param name="strUserId"></param>
+        private void GetUserInfotabPage(string strUserId)
         {
             UserInfo objUserInfo = objUserInfoService.GetUserInfoByUserID(strUserId);
             this.txtUserID.Text = objUserInfo.人员编号;
@@ -149,22 +299,25 @@ namespace HRMS
 
         }
 
-
         /// <summary>
-        /// 根据dataGridView查询详细信息，并输出给GroupBox
+        /// 根据dataGridView双击行数据查询组织分配
         /// </summary>
-        /// <param name="intUserId"></param>
-        private void GetUserInfoGroupBox(string strUserId)
+        /// <param name="strUserId"></param>
+        private void GetZuZhiFenPeitabPage(string strUserId)
         {
             ZuZhiFenPei objZuZhiFenPei = objZuZhiFenPeiService.GetZuZhiByUserID(DateTime.Now, strUserId);
-            this.txtUserID.Text = objZuZhiFenPei.人员编号;
-            this.txtViewName.Text = objZuZhiFenPei.姓名;
-            this.txtZuZhiDanWei.Text = objZuZhiFenPei.组织单位;
-            this.txtRenShiFanWei.Text = objZuZhiFenPei.人事范围;
-            this.txtYuanGongZu.Text = objZuZhiFenPei.员工组;
-            this.txtZhiWei.Text = objZuZhiFenPei.职位名称;
-            this.txtRenShiZiFanWei.Text = objZuZhiFenPei.人事子范围;
-            this.txtYuanGongZiZu.Text = objZuZhiFenPei.员工子组的名称;
+            this.txtZuZhiStartDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objZuZhiFenPei.开始日期.ToString()));
+            this.txtZuZhiEndDate.Text = string.Format("{0:yyyy.MM.dd}", Convert.ToDateTime(objZuZhiFenPei.结束日期.ToString()));
+            this.txtTabRenShiFanWei.Text = objZuZhiFenPei.人事范围;
+            this.txtTabRenShiZiFanWei.Text = objZuZhiFenPei.人事子范围;
+            this.txtTabYuanGongZu.Text = objZuZhiFenPei.员工组;
+            this.txtTabGongZiFanWei.Text = objZuZhiFenPei.工资范围;
+            this.cmbYuanGongZiZu.Text = objZuZhiFenPei.员工子组的名称;
+            this.txtTabZhiWeiBianMa.Text = objZuZhiFenPei.职位编码.ToString();
+            this.txtTabZhiWei.Text = objZuZhiFenPei.职位名称;
+            this.txtTabSuoShuErJiJiGou.Text = objZuZhiFenPei.二级内设机构;
+            this.txtTabSuoShuSanJiJiGou.Text = objZuZhiFenPei.三级内设机构;
+
         }
 
 
@@ -175,11 +328,17 @@ namespace HRMS
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            //清空tabPage数据
             objControlService.init_tabPage(tabPage1);
-            string userid = this.dataGridView1.CurrentRow.Cells["人员编号"].Value.ToString();
-            GetUserInfotabPage1(userid);
-            objControlService.DisabledTabPageItem(tabPage1);
+            objControlService.init_tabPage(tabPage2);
+
+            //根据DataGridView双击行，确定要修改的数据，并显示给GroupBox
+            string userid = this.dgvAllUser.CurrentRow.Cells["人员编号"].Value.ToString();
             GetUserInfoGroupBox(userid);
+            objControlService.DisabledGroupBoxItem(groupBox1);
+            //根据选定的tabPage生成DgvProject数据
+            init_dgvProject(userid);
+
         }
 
 
@@ -187,8 +346,8 @@ namespace HRMS
 
         /// <summary>
         /// 封装对象
-        /// </summary>
-        private UserInfo FengZhuangDuiXiang()
+        /// </summary>	
+        private UserInfo FengZhuangDuiXiang_UserInfo()
         {
             UserInfo objUserInfo = new UserInfo()
             {
@@ -214,14 +373,43 @@ namespace HRMS
             return objUserInfo;
         }
 
+        private ZuZhiFenPei FengZhuangDuiXiang_ZuZhi()
+        {
+            ZuZhiFenPei objZuZhiFenPei = new ZuZhiFenPei()
+            {
+                id = Convert.ToInt32(this.dgvProject.CurrentRow.Cells["id"].Value.ToString()),
+                人员编号 = this.txtUserID.Text.Trim(),
+                开始日期 = Convert.ToDateTime(this.txtZuZhiStartDate.Text.Trim()),
+                结束日期 = Convert.ToDateTime(this.txtZuZhiEndDate.Text.Trim()),
+                人事范围 = this.txtTabRenShiFanWei.Text.Trim(),
+                人事子范围 = this.txtTabRenShiZiFanWei.Text.Trim(),
+                员工组 = this.txtTabYuanGongZu.Text.Trim(),
+                员工子组 = this.cmbYuanGongZiZu.SelectedIndex == -1 ? null : this.cmbYuanGongZiZu.SelectedValue.ToString(),
+                工资范围 = this.txtTabGongZiFanWei.Text.Trim(),
+                职位编码 = Convert.ToInt32(this.txtTabZhiWeiBianMa.Text.Trim()),
+                备注 = this.txtTabZuZhiRemark.Text.Trim(),
+                更改者 = Program.currentAdmin.username,
+                更改日期 = DateTime.Now
+            };
+            return objZuZhiFenPei;
+        }
 
 
 
         private void tsbADD_Click(object sender, EventArgs e)
         {
             bAdd = true;
-            objControlService.init_tabPage(tabPage1);
-            objControlService.EnabledTabPageItem(tabPage1);
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                objControlService.init_tabPage(tabPage1);
+                objControlService.EnabledTabPageItem(tabPage1);
+            }
+            else if (tabControl1.SelectedTab == tabPage2)
+            {
+                objControlService.init_tabPage(tabPage2);
+                objControlService.EnabledTabPageItem(tabPage2);
+            }
+
 
 
 
@@ -235,8 +423,15 @@ namespace HRMS
                 return;
             }
             bModify = true;
-            objControlService.EnabledTabPageItem(tabPage1);
-            this.txtUserID.Enabled = false;
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                objControlService.EnabledTabPageItem(tabPage1);
+            }
+            else if (tabControl1.SelectedTab == tabPage2)
+            {
+                objControlService.EnabledTabPageItem(tabPage2);
+            }
+            //this.txtUserID.Enabled = false;
 
 
 
@@ -252,13 +447,29 @@ namespace HRMS
                 #endregion
 
                 #region 封装对象
-                UserInfo objUserInfo = FengZhuangDuiXiang();
+                //UserInfo objUserInfo = FengZhuangDuiXiang_UserInfo();
+                //ZuZhiFenPei objZuZhiFenPei = FengZhuangDuiXiang_ZuZhi();
                 #endregion
 
                 #region 调用后台数据访问对象添加数据
                 try
                 {
-                    if (objUserInfoService.Add(objUserInfo) == 1)
+                    int intResult = 0;
+                    if (tabControl1.SelectedTab == tabPage1)
+                    {
+                        UserInfo objUserInfo = FengZhuangDuiXiang_UserInfo();
+                        intResult = objUserInfoService.Add(objUserInfo);
+                    }
+                    else if (tabControl1.SelectedTab == tabPage2)
+                    {
+                        ZuZhiFenPei objZuZhiFenPei = FengZhuangDuiXiang_ZuZhi();
+                        intResult = objZuZhiFenPeiService.Add(objZuZhiFenPei);
+                    }
+
+
+
+
+                    if (intResult == 1)
                     {
                         DialogResult result = MessageBox.Show("添加成功，是否继续添加？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes)
@@ -268,9 +479,20 @@ namespace HRMS
                         else
                         {
                             bAdd = false;
-                            objControlService.init_tabPage(tabPage1);
-                            objControlService.DisabledTabPageItem(tabPage1);
-                            init_dgvUserInfo();
+                            if (tabControl1.SelectedTab == tabPage1)
+                            {
+                                objControlService.init_tabPage(tabPage1);
+                                objControlService.DisabledTabPageItem(tabPage1);
+                                init_dgvUserInfo();
+                                init_dgvProject(this.txtUserID.Text.Trim());
+                            }
+                            else if (tabControl1.SelectedTab == tabPage2)
+                            {
+                                objControlService.init_tabPage(tabPage2);
+                                objControlService.DisabledTabPageItem(tabPage2);
+                                init_dgvProject(this.txtUserID.Text.Trim());
+                            }
+                            //init_dgvUserInfo();
                         }
                     }
                     else
@@ -291,18 +513,44 @@ namespace HRMS
                 #endregion
 
                 #region 封装对象
-                UserInfo objUserInfo = FengZhuangDuiXiang();
+                //UserInfo objUserInfo = FengZhuangDuiXiang_UserInfo();
+                //ZuZhiFenPei objZuZhiFenPei = FengZhuangDuiXiang_ZuZhi();
                 #endregion
 
                 #region 调用后台数据访问对象修改数据
                 try
                 {
-                    if (objUserInfoService.Modify(objUserInfo) == 1)
+                    int intResult = 0;
+                    if (tabControl1.SelectedTab == tabPage1)
+                    {
+                        UserInfo objUserInfo = FengZhuangDuiXiang_UserInfo();
+                        intResult = objUserInfoService.Modify(objUserInfo);
+                    }
+                    else if (tabControl1.SelectedTab == tabPage2)
+                    {
+                        ZuZhiFenPei objZuZhiFenPei = FengZhuangDuiXiang_ZuZhi();
+                        intResult = objZuZhiFenPeiService.Modify(objZuZhiFenPei);
+                    }
+
+                    if (intResult == 1)
                     {
                         bModify = false;
-                        objControlService.init_tabPage(tabPage1);
-                        objControlService.DisabledTabPageItem(tabPage1);
-                        init_dgvUserInfo();
+
+                        if (tabControl1.SelectedTab == tabPage1)
+                        {
+                            objControlService.init_tabPage(tabPage1);
+                            objControlService.DisabledTabPageItem(tabPage1);
+                            init_dgvUserInfo();
+                            init_dgvProject(this.txtUserID.Text.Trim());
+                        }
+                        else if (tabControl1.SelectedTab == tabPage2)
+                        {
+                            objControlService.init_tabPage(tabPage2);
+                            objControlService.DisabledTabPageItem(tabPage2);
+                            init_dgvProject(this.txtUserID.Text.Trim());
+                        }
+
+
                         MessageBox.Show("修改成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;//返回修改成功的信息
                     }
@@ -356,5 +604,80 @@ namespace HRMS
             }
 
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            List<UserInfo> list = objUserInfoService.GetUserInfoByUserIdOrPYMOrName(this.txtSearch.Text);
+            SetDgvAllUserFormat(list);
+        }
+
+        private void dgvProject_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage1)
+            {
+                string userid = this.txtUserID.Text.Trim();
+                GetUserInfotabPage(userid);
+                objControlService.DisabledTabPageItem(tabPage1);
+            }
+            else if (tabControl1.SelectedTab == tabPage2)
+            {
+                string userid = this.txtUserID.Text.Trim();
+                GetZuZhiFenPeitabPage(userid);
+                objControlService.DisabledTabPageItem(tabPage2);
+            }
+
+
+
+
+        }
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string userid = this.txtUserID.Text.Trim();
+            init_dgvProject(userid);
+
+
+
+        }
+
+
+
+
+
+
+
+
+        private void btnSelectPosi_Click(object sender, EventArgs e)
+        {
+
+            Form frmSelectPosi = new FrmSelectPosi(set_posi);
+            frmSelectPosi.MaximizeBox = false;
+            frmSelectPosi.MinimizeBox = false;
+            frmSelectPosi.StartPosition = FormStartPosition.CenterScreen;
+            frmSelectPosi.ShowDialog();
+
+
+        }
+
+        void set_posi(int intPosiNum, string strPosiName, string strSuoShuErJiJiGou, string strSuoShuSanJiJiGou, string strGangWeiXingZhi)
+        {
+            txtTabZhiWeiBianMa.Text = intPosiNum.ToString();
+            txtTabZhiWei.Text = strPosiName;
+            txtTabSuoShuErJiJiGou.Text = strSuoShuErJiJiGou;
+            txtTabSuoShuSanJiJiGou.Text = strSuoShuSanJiJiGou;
+            cmbYuanGongZiZu.Text = strGangWeiXingZhi;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }

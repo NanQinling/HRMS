@@ -73,15 +73,27 @@ namespace DAL
             return this.GetUserListBySql(whereSql);
         }
 
-        ///// <summary>
-        ///// 根据人员编号查询人员对象
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<UserInfo> GetUserInfoListByParentId(int intUserId)
-        //{
-        //    string whereSql = string.Format(" where 人员编号 = '{0}'", intUserId);
-        //    return this.GetUserListBySql(whereSql);
-        //}
+
+        /// <summary>
+        /// 根据人员编号查询人员对象
+        /// </summary>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfoListByUserId(string strUserId)
+        {
+            string whereSql = string.Format($" where 人员编号 ='{strUserId}'");
+            return this.GetUserListBySql(whereSql);
+        }
+
+
+        /// <summary>
+        /// 根据人员编号查询人员对象
+        /// </summary>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfoByUserIdOrPYMOrName(string strSearch)
+        {
+            string whereSql = string.Format($" where 人员编号 like '%{strSearch}%' or 姓名 like '%{strSearch}%' or 拼音码 like '%{strSearch.Trim().ToUpper()}%' order by 人员编号");
+            return this.GetUserListBySql(whereSql);
+        }
 
 
 
@@ -196,60 +208,6 @@ namespace DAL
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /// <summary>
-        /// 获取银行列表下拉数据
-        /// </summary>
-        /// <returns></returns>
-        public List<UserInfo> GetAllBank()
-        {
-            StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("select id,银行代码 as 工资银行代码,银行名称 as 工资银行名称,银行代码 as 奖金银行代码,银行名称 as 奖金银行名称 from bas_bank order by 银行代码");
-
-            string sql = string.Format(sqlBuilder.ToString());
-
-            SqlDataReader objReader = SQLHelper.GetReader(sql);
-
-            List<UserInfo> list = new List<UserInfo>();
-            while (objReader.Read())
-            {
-                list.Add(new UserInfo()
-                {
-                    //id = Convert.ToInt32(objReader["id"].ToString()),
-                    工资银行代码 = objReader["工资银行代码"].ToString(),
-                    工资银行名称 = objReader["工资银行名称"].ToString(),
-                    奖金银行代码 = objReader["奖金银行代码"].ToString(),
-                    奖金银行名称 = objReader["奖金银行名称"].ToString(),
-                });
-            }
-            objReader.Close();
-            return list;
-        }
-
-
         /// <summary>
         /// 获取入职原因下拉数据
         /// </summary>
@@ -306,7 +264,34 @@ namespace DAL
         }
 
 
+        /// <summary>
+        /// 获取银行列表下拉数据
+        /// </summary>
+        /// <returns></returns>
+        public List<UserInfo> GetAllBank()
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append("select id,银行代码 as 工资银行代码,银行名称 as 工资银行名称,银行代码 as 奖金银行代码,银行名称 as 奖金银行名称 from bas_bank order by 银行代码");
 
+            string sql = string.Format(sqlBuilder.ToString());
+
+            SqlDataReader objReader = SQLHelper.GetReader(sql);
+
+            List<UserInfo> list = new List<UserInfo>();
+            while (objReader.Read())
+            {
+                list.Add(new UserInfo()
+                {
+                    //id = Convert.ToInt32(objReader["id"].ToString()),
+                    工资银行代码 = objReader["工资银行代码"].ToString(),
+                    工资银行名称 = objReader["工资银行名称"].ToString(),
+                    奖金银行代码 = objReader["奖金银行代码"].ToString(),
+                    奖金银行名称 = objReader["奖金银行名称"].ToString(),
+                });
+            }
+            objReader.Close();
+            return list;
+        }
 
 
 

@@ -87,7 +87,7 @@ namespace DAL
             string whereSql = " where '{0}' between 开始日期 and 结束日期";
 
             whereSql += " union all select 机构编号,'O '+机构名称,机构简称,开始日期,结束日期,null as 岗位性质,null as 岗位序列,null as 岗级,null as 是否特殊岗位,null as 是否关键岗位,null as 是否运行岗位,null as 是否虚拟岗位,备注,ParentID,排序,更改者,更改日期,null as 岗位性质文本 from org_dept where '{1}' between 开始日期 and 结束日期";
-            whereSql += " union all select emp_org.人员编号,'P '+emp_bas.姓名,emp_bas.姓名,开始日期,结束日期,null as 岗位性质,null as 岗位序列,null as 岗级,null as 是否特殊岗位,null as 是否关键岗位,null as 是否运行岗位,null as 是否虚拟岗位,emp_org.备注, 职位编码 as ParentID,排序,emp_org.更改者,emp_org.更改日期,null as 岗位性质文本 from emp_org";
+            whereSql += " union all select emp_org.人员编号,'P '+emp_bas.姓名,emp_bas.姓名,开始日期,结束日期,null as 岗位性质,null as 岗位序列,null as 岗级,null as 是否特殊岗位,null as 是否关键岗位,null as 是否运行岗位,null as 是否虚拟岗位,emp_org.备注, 职位编码 as ParentID,0 as 排序,emp_org.更改者,emp_org.更改日期,null as 岗位性质文本 from emp_org";
             whereSql += " inner join emp_bas on emp_bas.人员编号 = emp_org.人员编号 ";
             whereSql += " where '{2}' between 开始日期 and 结束日期 order by ParentId,排序";
 
@@ -99,52 +99,52 @@ namespace DAL
 
 
 
-        /// <summary>
-        /// 查询单一组织岗位对象
-        /// </summary>
-        /// <param name="current_date_gz"></param>
-        /// <param name="id">岗位编码</param>
-        /// <returns></returns>
-        public GangWei GetGangWeiByGangWeiID(DateTime dateTime, int id)
-        {
-            StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("select 职位编码,职位名称,职位简称,开始日期,结束日期,岗位性质,岗位序列,岗级, 是否特殊岗位, 是否关键岗位,是否运行岗位,是否虚拟岗位, 备注, ParentID, 排序, 更改者, 更改日期, 岗位性质长文本 from org_posi");
-            sqlBuilder.Append(" inner join bas_posi_quality on bas_posi_quality.DT = org_posi.岗位性质");
-            sqlBuilder.Append(" where '{0}' between 开始日期 and 结束日期 and 职位编码 = {1}");
+        ///// <summary>
+        ///// 查询单一组织岗位对象
+        ///// </summary>
+        ///// <param name="current_date_gz"></param>
+        ///// <param name="id">岗位编码</param>
+        ///// <returns></returns>
+        //public GangWei GetGangWeiByGangWeiID(DateTime dateTime, int id)
+        //{
+        //    StringBuilder sqlBuilder = new StringBuilder();
+        //    sqlBuilder.Append("select 职位编码,职位名称,职位简称,开始日期,结束日期,岗位性质,岗位序列,岗级, 是否特殊岗位, 是否关键岗位,是否运行岗位,是否虚拟岗位, 备注, ParentID, 排序, 更改者, 更改日期, 岗位性质长文本 from org_posi");
+        //    sqlBuilder.Append(" inner join bas_posi_quality on bas_posi_quality.DT = org_posi.岗位性质");
+        //    sqlBuilder.Append(" where '{0}' between 开始日期 and 结束日期 and 职位编码 = {1}");
 
-            string sql = string.Format(sqlBuilder.ToString(), dateTime, id);
+        //    string sql = string.Format(sqlBuilder.ToString(), dateTime, id);
 
-            SqlDataReader objReader = SQLHelper.GetReader(sql);
+        //    SqlDataReader objReader = SQLHelper.GetReader(sql);
 
-            GangWei objGangWei = null;
+        //    GangWei objGangWei = null;
 
-            if (objReader.Read())
-            {
-                objGangWei = new GangWei()
-                {
-                    职位编码 = Convert.ToInt32(objReader["职位编码"].ToString()),
-                    职位名称 = objReader["职位名称"].ToString(),
-                    职位简称 = objReader["职位简称"].ToString(),
-                    开始日期 = Convert.ToDateTime(objReader["开始日期"].ToString()),
-                    结束日期 = Convert.ToDateTime(objReader["结束日期"].ToString()),
-                    岗位性质 = objReader["岗位性质"].ToString(),
-                    岗位序列 = objReader["岗位序列"].ToString(),
-                    岗级 = objReader["岗级"].ToString(),
-                    是否特殊岗位 = objReader["是否特殊岗位"] is DBNull ? false : (bool)objReader["是否特殊岗位"],
-                    是否关键岗位 = objReader["是否关键岗位"] is DBNull ? false : (bool)objReader["是否关键岗位"],
-                    是否运行岗位 = objReader["是否运行岗位"] is DBNull ? false : (bool)objReader["是否运行岗位"],
-                    是否虚拟岗位 = objReader["是否虚拟岗位"] is DBNull ? false : (bool)objReader["是否虚拟岗位"],
-                    备注 = objReader["备注"].ToString(),
-                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
-                    排序 = objReader["排序"] is DBNull ? 0 : Convert.ToInt32(objReader["排序"].ToString()),
-                    更改者 = objReader["更改者"].ToString(),
-                    更改日期 = Convert.ToDateTime(objReader["更改日期"].ToString()),
-                    岗位性质长文本 = objReader["岗位性质长文本"].ToString()
-                };
-            }
-            objReader.Close();
-            return objGangWei;
-        }
+        //    if (objReader.Read())
+        //    {
+        //        objGangWei = new GangWei()
+        //        {
+        //            职位编码 = Convert.ToInt32(objReader["职位编码"].ToString()),
+        //            职位名称 = objReader["职位名称"].ToString(),
+        //            职位简称 = objReader["职位简称"].ToString(),
+        //            开始日期 = Convert.ToDateTime(objReader["开始日期"].ToString()),
+        //            结束日期 = Convert.ToDateTime(objReader["结束日期"].ToString()),
+        //            岗位性质 = objReader["岗位性质"].ToString(),
+        //            岗位序列 = objReader["岗位序列"].ToString(),
+        //            岗级 = objReader["岗级"].ToString(),
+        //            是否特殊岗位 = objReader["是否特殊岗位"] is DBNull ? false : (bool)objReader["是否特殊岗位"],
+        //            是否关键岗位 = objReader["是否关键岗位"] is DBNull ? false : (bool)objReader["是否关键岗位"],
+        //            是否运行岗位 = objReader["是否运行岗位"] is DBNull ? false : (bool)objReader["是否运行岗位"],
+        //            是否虚拟岗位 = objReader["是否虚拟岗位"] is DBNull ? false : (bool)objReader["是否虚拟岗位"],
+        //            备注 = objReader["备注"].ToString(),
+        //            ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
+        //            排序 = objReader["排序"] is DBNull ? 0 : Convert.ToInt32(objReader["排序"].ToString()),
+        //            更改者 = objReader["更改者"].ToString(),
+        //            更改日期 = Convert.ToDateTime(objReader["更改日期"].ToString()),
+        //            岗位性质长文本 = objReader["岗位性质长文本"].ToString()
+        //        };
+        //    }
+        //    objReader.Close();
+        //    return objGangWei;
+        //}
 
         /// <summary>
         /// 增加岗位对象
@@ -292,6 +292,70 @@ namespace DAL
             }
         }
 
+
+
+        /// <summary>
+        /// 查询单一组织岗位对象
+        /// </summary>
+        /// <param name="current_date_gz"></param>
+        /// <param name="id">岗位编码</param>
+        /// <returns></returns>
+        public GangWei GetGangWeiByGangWeiID(DateTime dateTime, int id)
+        {
+            StringBuilder sqlBuilder = new StringBuilder();
+            sqlBuilder.Append("select a.职位编码,a.职位名称,a.职位简称,a.开始日期,a.结束日期,a.岗位性质,a.岗位序列,a.岗级, a.是否特殊岗位, a.是否关键岗位, a.是否运行岗位,a.是否虚拟岗位, a.备注, a.ParentID, a.排序, a.更改者, a.更改日期,f.机构名称 as 所属二级机构,e.机构名称 as 所属三级机构,e.内设机构层级,b.岗位性质长文本 from org_posi a");
+            sqlBuilder.Append(" left join bas_posi_quality b on b.DT = a.岗位性质");
+            sqlBuilder.Append(" left join org_posi d on d.职位编码 = a.职位编码");
+            sqlBuilder.Append(" left join org_dept e on e.机构编号 = d.ParentID");
+            sqlBuilder.Append(" left join org_dept f on f.机构编号 = e.ParentID");
+
+            sqlBuilder.Append(" where '{0}' between a.开始日期 and a.结束日期 and a.职位编码 = {1}");
+
+            string sql = string.Format(sqlBuilder.ToString(), dateTime, id);
+
+            SqlDataReader objReader = SQLHelper.GetReader(sql);
+
+            GangWei objGangWei = null;
+
+            if (objReader.Read())
+            {
+                objGangWei = new GangWei()
+                {
+                    职位编码 = Convert.ToInt32(objReader["职位编码"].ToString()),
+                    职位名称 = objReader["职位名称"].ToString(),
+                    职位简称 = objReader["职位简称"].ToString(),
+                    开始日期 = Convert.ToDateTime(objReader["开始日期"].ToString()),
+                    结束日期 = Convert.ToDateTime(objReader["结束日期"].ToString()),
+                    岗位性质 = objReader["岗位性质"].ToString(),
+                    岗位序列 = objReader["岗位序列"].ToString(),
+                    岗级 = objReader["岗级"].ToString(),
+                    是否特殊岗位 = objReader["是否特殊岗位"] is DBNull ? false : (bool)objReader["是否特殊岗位"],
+                    是否关键岗位 = objReader["是否关键岗位"] is DBNull ? false : (bool)objReader["是否关键岗位"],
+                    是否运行岗位 = objReader["是否运行岗位"] is DBNull ? false : (bool)objReader["是否运行岗位"],
+                    是否虚拟岗位 = objReader["是否虚拟岗位"] is DBNull ? false : (bool)objReader["是否虚拟岗位"],
+                    备注 = objReader["备注"].ToString(),
+                    ParentID = Convert.ToInt32(objReader["ParentID"].ToString()),
+                    排序 = objReader["排序"] is DBNull ? 0 : Convert.ToInt32(objReader["排序"].ToString()),
+                    更改者 = objReader["更改者"].ToString(),
+                    更改日期 = Convert.ToDateTime(objReader["更改日期"].ToString()),
+                    所属二级机构 = objReader["所属二级机构"].ToString(),
+                    所属三级机构 = objReader["所属三级机构"].ToString(),
+                    内设机构层级 = objReader["内设机构层级"].ToString(),
+                    岗位性质长文本 = objReader["岗位性质长文本"].ToString(),
+                };
+            }
+            objReader.Close();
+
+
+            //如果是二级内设机构时，将三机内设机构的值赋给二级，并清空三级的值。
+            if (objGangWei.内设机构层级 == "02")
+            {
+                objGangWei.所属二级机构 = objGangWei.所属三级机构;
+                objGangWei.所属三级机构 = null;
+            }
+
+            return objGangWei;
+        }
 
 
 

@@ -214,7 +214,7 @@ namespace HRMS
                 int importCount = 0;
                 foreach (var item in objKaoQin)
                 {
-
+                    item.排序 = objKaoQin.IndexOf(item);
                     item.更改者 = Program.currentAdmin.username;
                     item.更改日期 = DateTime.Now;
 

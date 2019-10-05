@@ -36,5 +36,6 @@ namespace Models
         public string 更改者 { get; set; }
         public DateTime 更改日期 { get; set; }
         public bool IsSubmit { get; set; }
+        public int 排序 { get; set; }
     }
 }

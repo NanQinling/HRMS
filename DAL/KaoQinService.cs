@@ -24,7 +24,7 @@ namespace DAL
         /// <returns></returns>
         public List<KaoQin> GetAllKaoQin(string last_year_month)
         {
-            string whereSql = string.Format(" where 考勤年月 = '{0}'", last_year_month);
+            string whereSql = string.Format(" where 考勤年月 = '{0}' order by 排序", last_year_month);
             return this.GetKaoQinBySql(whereSql);
         }
 
@@ -36,7 +36,7 @@ namespace DAL
         /// <returns></returns>
         public List<KaoQin> GetKaoQinByDept(string last_year_month, string dept)
         {
-            string whereSql = string.Format(" where 考勤年月 = '{0}' and 部门 = '{1}'", last_year_month, dept);
+            string whereSql = string.Format(" where 考勤年月 = '{0}' and 部门 = '{1}' order by 排序", last_year_month, dept);
             return this.GetKaoQinBySql(whereSql);
         }
 
@@ -47,7 +47,7 @@ namespace DAL
         /// <returns></returns>
         public List<KaoQin> GetNotSubmitKaoQin(string last_year_month)
         {
-            string whereSql = string.Format(" where 考勤年月 = '{0}' and (issubmit = 0 or issubmit is null) ", last_year_month);
+            string whereSql = string.Format(" where 考勤年月 = '{0}' and (issubmit = 0 or issubmit is null) order by 排序", last_year_month);
             return this.GetKaoQinBySql(whereSql);
         }
 
@@ -58,7 +58,7 @@ namespace DAL
         /// <returns></returns>
         private List<KaoQin> GetKaoQinBySql(string whereSql)
         {
-            string sql = "select 考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit from imp_attendance";
+            string sql = "select id,考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit,排序 from imp_attendance ";
             sql += whereSql;
 
             SqlDataReader objReader = SQLHelper.GetReader(sql);
@@ -67,6 +67,7 @@ namespace DAL
             {
                 list.Add(new KaoQin()
                 {
+                    id = Convert.ToInt32(objReader["id"].ToString()),
                     考勤年月 = objReader["考勤年月"].ToString(),
                     部门 = objReader["部门"].ToString(),
                     班组 = objReader["班组"].ToString(),
@@ -97,7 +98,8 @@ namespace DAL
                     备注 = objReader["备注"].ToString(),
                     更改者 = objReader["更改者"].ToString(),
                     更改日期 = Convert.ToDateTime(objReader["更改日期"].ToString()),
-                    IsSubmit = objReader["IsSubmit"] is DBNull ? false : (bool)objReader["IsSubmit"]
+                    IsSubmit = objReader["IsSubmit"] is DBNull ? false : (bool)objReader["IsSubmit"],
+                    排序 = objReader["排序"] is DBNull ? 0 : Convert.ToInt32(objReader["排序"].ToString()),
 
                 });
             }
@@ -115,7 +117,7 @@ namespace DAL
         /// <returns></returns>
         public KaoQin GetKaoQinByUserId(string last_year_month, string userid)
         {
-            string sql = "select 考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit from imp_attendance where 考勤年月 = '{0}' and 人员编号 = '{1}'";
+            string sql = "select id,考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit,排序 from imp_attendance where 考勤年月 = '{0}' and 人员编号 = '{1}'";
             sql = string.Format(sql, last_year_month, userid);
 
             SqlDataReader objReader = SQLHelper.GetReader(sql);
@@ -124,6 +126,7 @@ namespace DAL
             {
                 objKaoQin = new KaoQin()
                 {
+                    id = Convert.ToInt32(objReader["id"].ToString()),
                     考勤年月 = objReader["考勤年月"].ToString(),
                     部门 = objReader["部门"].ToString(),
                     班组 = objReader["班组"].ToString(),
@@ -154,7 +157,9 @@ namespace DAL
                     备注 = objReader["备注"].ToString(),
                     更改者 = objReader["更改者"].ToString(),
                     更改日期 = Convert.ToDateTime(objReader["更改日期"].ToString()),
-                    IsSubmit = objReader["IsSubmit"] is DBNull ? false : (bool)objReader["IsSubmit"]
+                    IsSubmit = objReader["IsSubmit"] is DBNull ? false : (bool)objReader["IsSubmit"],
+                    排序 = objReader["排序"] is DBNull ? 0 : Convert.ToInt32(objReader["排序"].ToString()),
+
                 };
             }
             objReader.Close();
@@ -207,10 +212,10 @@ namespace DAL
         {
             //1、编写SQL语句
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.Append("insert into imp_attendance (考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit)");
-            sqlBuilder.Append(" values ('{0}','{1}','{2}','{3}','{4}',{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},'{27}','{28}','{29}','{30}')");
+            sqlBuilder.Append("insert into imp_attendance (考勤年月,部门,班组,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,备注,更改者,更改日期,IsSubmit,排序)");
+            sqlBuilder.Append(" values ('{0}','{1}','{2}','{3}','{4}',{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},'{27}','{28}','{29}','{30}',{31})");
             //2、解析对象
-            string sql = string.Format(sqlBuilder.ToString(), objKaoQin.考勤年月, objKaoQin.部门, objKaoQin.班组, objKaoQin.人员编号, objKaoQin.姓名, objKaoQin.应出勤, objKaoQin.实际出勤, objKaoQin.出差, objKaoQin.旷工, objKaoQin.年假, objKaoQin.事假, objKaoQin.病假, objKaoQin.正常调休, objKaoQin.产假, objKaoQin.陪产假, objKaoQin.婚假, objKaoQin.丧假, objKaoQin.迟到早退次数, objKaoQin.缺卡次数, objKaoQin.工作日加班次数, objKaoQin.休息日加班, objKaoQin.节假日加班, objKaoQin.休息日出差, objKaoQin.夜间值班次数, objKaoQin.夜间值班调休次数, objKaoQin.打卡签到次数, objKaoQin.工作时长, objKaoQin.备注, objKaoQin.更改者, objKaoQin.更改日期, objKaoQin.IsSubmit);
+            string sql = string.Format(sqlBuilder.ToString(), objKaoQin.考勤年月, objKaoQin.部门, objKaoQin.班组, objKaoQin.人员编号, objKaoQin.姓名, objKaoQin.应出勤, objKaoQin.实际出勤, objKaoQin.出差, objKaoQin.旷工, objKaoQin.年假, objKaoQin.事假, objKaoQin.病假, objKaoQin.正常调休, objKaoQin.产假, objKaoQin.陪产假, objKaoQin.婚假, objKaoQin.丧假, objKaoQin.迟到早退次数, objKaoQin.缺卡次数, objKaoQin.工作日加班次数, objKaoQin.休息日加班, objKaoQin.节假日加班, objKaoQin.休息日出差, objKaoQin.夜间值班次数, objKaoQin.夜间值班调休次数, objKaoQin.打卡签到次数, objKaoQin.工作时长, objKaoQin.备注, objKaoQin.更改者, objKaoQin.更改日期, objKaoQin.IsSubmit, objKaoQin.排序);
             //3、执行SQL语句，返回结果
             return SQLHelper.Update(sql);
         }
@@ -261,6 +266,7 @@ namespace DAL
             {
                 list.Add(new KaoQin()
                 {
+                    id = Convert.ToInt32(dt_import.Rows[i]["序号"].ToString()),
                     考勤年月 = dt_import.Rows[i]["考勤年月"].ToString(),
                     部门 = dt_import.Rows[i]["部门"].ToString(),
                     班组 = dt_import.Rows[i]["班组"].ToString(),
@@ -291,8 +297,8 @@ namespace DAL
                     备注 = dt_import.Rows[i]["备注"].ToString(),
                     //更改者 = dt_import.Rows[i]["更改者"].ToString(),
                     //更改日期 = Convert.ToDateTime(dt_import.Rows[i]["更改日期"].ToString())
-                    IsSubmit = dt_import.Rows[i]["IsSubmit"] is DBNull ? false : (bool)dt_import.Rows[i]["IsSubmit"]
-
+                    //IsSubmit = dt_import.Rows[i]["IsSubmit"] is DBNull ? false : (bool)dt_import.Rows[i]["IsSubmit"],
+                    //排序 = dt_import.Rows[i]["排序"] is DBNull ? 0 : Convert.ToInt32(dt_import.Rows[i]["排序"].ToString()),
 
 
                 });
@@ -309,7 +315,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable ExportKaoQinPrint(string last_year_month, string dept)
         {
-            string sql = "select ROW_NUMBER() over (order by id) as 序号,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,'' as 本人签字,备注,考勤年月,部门,班组,更改日期 from imp_attendance where 考勤年月 = '{0}' and 部门 = '{1}'";
+            string sql = "select ROW_NUMBER() over (order by id) as 序号,人员编号,姓名,应出勤,实际出勤,出差,旷工,年假,事假,病假,正常调休,产假,陪产假,婚假,丧假,迟到早退次数,缺卡次数,工作日加班次数,休息日加班,节假日加班,休息日出差,夜间值班次数,夜间值班调休次数,打卡签到次数,工作时长,'' as 本人签字,备注,考勤年月,部门,班组,更改日期 from imp_attendance where 考勤年月 = '{0}' and 部门 = '{1}' order by 排序";
             sql = string.Format(sql, last_year_month, dept);
             DataTable dt_export = SQLHelper.GetDataTable(sql);
             return dt_export;
@@ -339,9 +345,14 @@ namespace DAL
                 }
             }
 
-            string sql = $"select ROW_NUMBER() over (order by emp_bas.id) as 序号,{last_year_month} as 考勤年月,'' as 部门,'' as 班组,emp_bas.人员编号,emp_bas.姓名,'' as 应出勤,'' as 实际出勤,'' as 出差,'' as 旷工,'' as 年假,'' as 事假,'' as 病假,'' as 正常调休,'' as 产假,'' as 陪产假,'' as 婚假,'' as 丧假,'' as 迟到早退次数,'' as 缺卡次数,'' as 工作日加班次数,'' as 休息日加班,'' as 节假日加班,'' as 休息日出差,'' as 夜间值班次数,'' as 夜间值班调休次数,'' as 打卡签到次数,'' as 工作时长,'' as 本人签字,'' as 备注 from emp_bas";
-            sql += $" inner join emp_org on emp_bas.人员编号 = emp_org.人员编号";
-            sql += $" where '{current_year_month}'+'01' between emp_org.开始日期 and emp_org.结束日期 order by emp_org.排序 DESC";
+            string sql = $"select 0 as 序号,201909 as 考勤年月,'' as 部门,'' as 班组,a.人员编号,a.姓名,'' as 应出勤,'' as 实际出勤,'' as 出差,'' as 旷工,'' as 年假,'' as 事假,'' as 病假,'' as 正常调休,'' as 产假,'' as 陪产假,'' as 婚假,'' as 丧假,'' as 迟到早退次数,'' as 缺卡次数,'' as 工作日加班次数,'' as 休息日加班,'' as 节假日加班,'' as 休息日出差,'' as 夜间值班次数,'' as 夜间值班调休次数,'' as 打卡签到次数,'' as 工作时长,'' as 本人签字,'' as 备注 from emp_bas a";
+            sql += $" inner join emp_org b on a.人员编号 = b.人员编号";
+            sql += $" inner join org_posi c on b.职位编码 = c.职位编码";
+            sql += $" inner join org_dept d on c.ParentId = d.机构编号";
+
+            sql += $" where '{current_year_month}'+'01' between b.开始日期 and b.结束日期 and '{current_year_month}'+'01' between c.开始日期 and c.结束日期 and '{current_year_month}'+'01' between d.开始日期 and d.结束日期 ";
+            sql += " order by d.内设机构层级,d.排序,c.排序";
+
             DataTable dt_user = SQLHelper.GetDataTable(sql);
 
             for (int i = 0; i < dt_user.Rows.Count; i++)
@@ -392,6 +403,12 @@ namespace DAL
                     dt_user.Rows[i]["班组"] = splitstrings[1];
                 }
             }
+
+            for (int i = 0; i < dt_user.Rows.Count; i++)
+            {
+                dt_user.Rows[i]["序号"] = i + 1;
+            }
+
             return dt_user;
         }
 

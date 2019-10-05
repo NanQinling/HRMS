@@ -91,6 +91,11 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnNotSubmit = new System.Windows.Forms.Button();
+            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnMoveSave = new System.Windows.Forms.Button();
+            this.btnMoveBott = new System.Windows.Forms.Button();
+            this.btnMoveTop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKaoQin)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.gbKaoQin.SuspendLayout();
@@ -670,6 +675,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.btnMoveSave);
+            this.panel1.Controls.Add(this.btnMoveBott);
+            this.panel1.Controls.Add(this.btnMoveTop);
+            this.panel1.Controls.Add(this.btnMoveDown);
+            this.panel1.Controls.Add(this.btnMoveUp);
             this.panel1.Controls.Add(this.btnNotSubmit);
             this.panel1.Controls.Add(this.dgvKaoQin);
             this.panel1.Controls.Add(this.btnClose);
@@ -691,6 +701,56 @@
             this.btnNotSubmit.Text = "未报送人员";
             this.btnNotSubmit.UseVisualStyleBackColor = true;
             this.btnNotSubmit.Click += new System.EventHandler(this.BtnNotSubmit_Click);
+            // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.Location = new System.Drawing.Point(282, 24);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(35, 23);
+            this.btnMoveDown.TabIndex = 25;
+            this.btnMoveDown.Text = "下移";
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            // 
+            // btnMoveUp
+            // 
+            this.btnMoveUp.Location = new System.Drawing.Point(241, 23);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(35, 23);
+            this.btnMoveUp.TabIndex = 24;
+            this.btnMoveUp.Text = "上移";
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+            // 
+            // btnMoveSave
+            // 
+            this.btnMoveSave.Location = new System.Drawing.Point(364, 24);
+            this.btnMoveSave.Name = "btnMoveSave";
+            this.btnMoveSave.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveSave.TabIndex = 28;
+            this.btnMoveSave.Text = "保存";
+            this.btnMoveSave.UseVisualStyleBackColor = true;
+            this.btnMoveSave.Click += new System.EventHandler(this.btnMoveSave_Click);
+            // 
+            // btnMoveBott
+            // 
+            this.btnMoveBott.Location = new System.Drawing.Point(323, 24);
+            this.btnMoveBott.Name = "btnMoveBott";
+            this.btnMoveBott.Size = new System.Drawing.Size(35, 23);
+            this.btnMoveBott.TabIndex = 27;
+            this.btnMoveBott.Text = "置尾";
+            this.btnMoveBott.UseVisualStyleBackColor = true;
+            this.btnMoveBott.Click += new System.EventHandler(this.btnMoveBott_Click);
+            // 
+            // btnMoveTop
+            // 
+            this.btnMoveTop.Location = new System.Drawing.Point(200, 23);
+            this.btnMoveTop.Name = "btnMoveTop";
+            this.btnMoveTop.Size = new System.Drawing.Size(35, 23);
+            this.btnMoveTop.TabIndex = 26;
+            this.btnMoveTop.Text = "置顶";
+            this.btnMoveTop.UseVisualStyleBackColor = true;
+            this.btnMoveTop.Click += new System.EventHandler(this.btnMoveTop_Click);
             // 
             // FrmKaoQin
             // 
@@ -778,5 +838,10 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnNotSubmit;
+        private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.Button btnMoveUp;
+        private System.Windows.Forms.Button btnMoveSave;
+        private System.Windows.Forms.Button btnMoveBott;
+        private System.Windows.Forms.Button btnMoveTop;
     }
 }

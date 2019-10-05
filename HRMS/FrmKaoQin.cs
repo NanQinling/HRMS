@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 
@@ -11,6 +12,7 @@ namespace HRMS
     {
         private KaoQinService objKaoQinService = new DAL.KaoQinService();//创建数据访问类对象
         private ControlService objControlService = new DAL.ControlService();
+        private MoveItemService objMoveItemService = new DAL.MoveItemService();
 
         /// <summary>
         /// 加班表格初始化
@@ -33,6 +35,8 @@ namespace HRMS
             this.dgvKaoQin.ReadOnly = true;
             this.dgvKaoQin.MultiSelect = false;
             this.dgvKaoQin.Columns[3].Frozen = true;
+
+            dgvKaoQin.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             //禁止 DataGridView 点击 列标题 排序
             for (int i = 0; i < this.dgvKaoQin.Columns.Count; i++)
@@ -247,5 +251,41 @@ namespace HRMS
             SetDgvKaoQinFormat(list);
         }
 
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+
+            objMoveItemService.MoveDataGridViewX(dgvKaoQin, -1);
+
+
+        }
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            objMoveItemService.MoveDataGridViewX(dgvKaoQin, 1);
+
+        }
+
+        private void btnMoveTop_Click(object sender, EventArgs e)
+        {
+            objMoveItemService.MoveDataGridViewX(dgvKaoQin, -2);
+        }
+
+        private void btnMoveBott_Click(object sender, EventArgs e)
+        {
+            objMoveItemService.MoveDataGridViewX(dgvKaoQin, 2);
+
+        }
+
+        private void btnMoveSave_Click(object sender, EventArgs e)
+        {
+            List<KaoQin> list = new List<KaoQin>();
+            list = (List<KaoQin>)dgvKaoQin.DataSource;
+
+            foreach (var item in list)
+            {
+                item.排序 = list.IndexOf(item);
+                objMoveItemService.ModifySortID("imp_attendance", "排序", item.排序, "id", item.id.ToString());
+            }
+
+        }
     }
 }
